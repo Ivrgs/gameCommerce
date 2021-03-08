@@ -1,0 +1,133 @@
+html, body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+.fa{
+    font-size: 2em;
+}
+a.fa-shopping-cart {
+position: relative;
+font-size: 5em;
+color: grey;
+cursor: pointer;
+}
+span.fa-comment {
+position: absolute;
+font-size: 0.2em;
+top: -4px;
+color: red;
+right: 0px;
+}
+span.num {
+position: absolute;
+font-size: 0.3em;
+top: 1px;
+color: #000;
+right: 2px;
+}
+.row{
+margin-left: 0px !important;
+margin-right: 0px !important;
+width: 100%;
+}
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+footer {
+bottom: 0;
+width: 100%;
+color: #fff;
+}
+.FooterCopyright {
+background: #151515;
+color: #fff;
+padding: 1vw 0;
+text-align: center;
+}
+.FooterWidgetContainer {
+padding: 50px 0;
+}
+.FooterColor {
+padding: 3vw 0;
+background-color: #202425;
+color: #fff;
+}
+
+
+     /* Style the tab */
+     .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+      }
+
+      /* Style the buttons that are used to open the tab content */
+      .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+      }
+
+      /* Change background color of buttons on hover */
+      .tab button:hover {
+        background-color: #ddd;
+      }
+
+      /* Create an active/current tablink class */
+      .tab button.active {
+        background-color: #ccc;
+      }
+
+      /* Style the tab content */
+      .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+      }

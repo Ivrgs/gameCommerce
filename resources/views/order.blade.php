@@ -12,6 +12,11 @@
     @if($system == false || isset($grouped) == "" )
     <p style="text-align: center;">No Orders Yet</p>
     @else
+    @if (session('stat'))
+    <div class="alert alert-success">
+        {{ session('stat') }}
+    </div>
+@endif
         <div class="container" style="width: 50%;">
             @foreach($grouped as $product => $grouped)
                 <div class="row" style="padding: 0vw 1vw 1vw 1vw; border: 1px solid black; margin: 1vw 0vw;">

@@ -97,7 +97,7 @@ class ShopController extends Controller
         $order->order_price = $_POST['product_final_price'];
         $order->order_status = '0';
         $order->save();
-        return Redirect::back()->withErrors(["Redirect to Orders"]);
+        return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
     }
     public function checkout(){
         $arr = OrderModel::join('tbl_shop', 'tbl_shop.id', '=', "tbl_orders.product_id")
@@ -125,7 +125,7 @@ class ShopController extends Controller
         }else{
             OrderModel::insert($arr);
             $cart->each->delete();
-            return Redirect::back()->withErrors(['Your Item/s has been Ordered']);
+            return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
         }
     }
 

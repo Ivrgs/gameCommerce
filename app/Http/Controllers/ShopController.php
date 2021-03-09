@@ -269,6 +269,24 @@ class ShopController extends Controller
     public function destroy($id){
         //
     }
+    public function wishlist(){
+        if(empty(WishModel::where('user_id', Auth::user()->id)->get())){
+            //
+        }else{
+            $mywish =  WishModel::where("user_id", Auth::user()->id)->get();
+            $grouped = $mywish->groupBy('id');
+        
+            $sample = array();
+            foreach($mywish as $wish){
+                $productData = ShopModel::select('id','product_image','product_name', 'product_price')->where('id', $wish->product_id)->get();
+                $temp = array();
+                $temp['WishID'] = $wish->id;
+                $temp['ProductData'] = $productData;
+                array_push($sample, $temp);
+            }
+        }
+        return view('wish', compact('sample'));
+    }
     public function wishdestroy(Request $request){
         $wishdelete = WishModel::where('product_id', $request->product_id)->where('user_id', $request->user_id)->delete();
         return Redirect::back()->withErrors(["Wish has been Deleted"]);

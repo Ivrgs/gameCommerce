@@ -31,6 +31,7 @@
             @endif
             <a href="{{ url('orders') }}" ><button > Order History </button></a>
                     <button data-toggle="modal" data-target="#exampleModal">Change Password</button>
+                    <a href="{{ url('wishlist') }}" ><button > My Wishlist </button></a>
                 </div>
             </div>
         </div>

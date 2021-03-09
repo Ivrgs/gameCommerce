@@ -33,6 +33,6 @@ Route::post('/buynow', 'ShopController@directstore')->name('ShopBuyNow');
 Route::post('/wishlist', 'ShopController@wishstore')->name('ShopWishlist');
 Route::post('/removewish', 'ShopController@wishdestroy')->name('ShopRemoveWishlist');
 Route::get('/orders', 'ShopController@orderhistory')->name('ShopOrderHistory');
-
+Route::get('/wishlist', 'ShopController@wishlist')->name('ShopMyWishlist');
 
 Route::get('/about', 'ShopController@about')->name('ShopAbout');

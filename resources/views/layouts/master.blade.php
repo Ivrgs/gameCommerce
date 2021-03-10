@@ -139,13 +139,12 @@
                     type: "GET",
                     dataType: "JSON",
                     success: function(response){
-                        // if(){
-                        //     alert('empty');
-                        //  }else{
+                        if(response.ProductDetails == 0 || response.Total == 0){
+                            $(".modal-body").html("<b>You don't have any items in your cart, Shop now.</b>");
+                        }else{
                             $.each(response.ProductDetails, function(){
-                                console.log(response)
 
-                                document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src='asd.jpg' style='width:100px; height:120px;'><div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
+                                document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src=''><div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
                                 // document.getElementsByClassName("temp")[0].innerHTML +="<p class='GamePrice'>Product Price: " + this['ProductPrice'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><div class='col-md-12'><p class='GamePlatform'>Game Platform: " + this['ProductPlatform'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML += "<div class='col-md-6'><p class='GameQuantity'>Product Quantity: " + this['CartQuantity'] + "</p></div><div class='col-md-6'></div></div><br>";
@@ -159,7 +158,7 @@
                             $("#modal").on("hidden.bs.modal", function(){
                                 $('.temp').empty();
                             });
-                       // }
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown){
                         alert('Data not Found');

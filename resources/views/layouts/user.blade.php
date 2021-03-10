@@ -101,7 +101,7 @@
                       </button>
                     </div>
                     <div class="modal-body">
-                        <div class="temp"><img src="asd.jpg" style="width:100px; height:120px;"></div>
+                        <div class="temp" id="sample"></div>
                         <div class="Total"></div>
                         <div class="Price"></div>
 
@@ -135,9 +135,9 @@
                     type: "GET",
                     dataType: "JSON",
                     success: function(response){
-                        // if(){
-                        //     alert('empty');
-                        //  }else{
+                        if(response.ProductDetails == 0 || response.Total == 0){
+                            $(".modal-body").html("<b>You don't have any items in your cart, Shop now.</b>");
+                        }else{                           
                             $.each(response.ProductDetails, function(){
                                 console.log(response)
 
@@ -155,7 +155,7 @@
                             $("#modal").on("hidden.bs.modal", function(){
                                 $('.temp').empty();
                             });
-                       // }
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown){
                         alert('Data not Found');

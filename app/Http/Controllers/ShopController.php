@@ -192,18 +192,18 @@ class ShopController extends Controller
 
     //View Cart Ajax Modal
     public function showcart(Request $request){
-        $productData = ShopModel::join('tbl_cart', 'tbl_cart.product_id', '=', "tbl_shop.id")
-       ->where("user_id", $request->id)->get();
+        $productData = ShopModel::join('tbl_cart', 'tbl_cart.product_id', '=', "tbl_shop.id")->where("user_id", $request->id)->get();
 
         $cartData = CartModel::where('user_id', $request->id)->get();
         $quantity = CartModel::where('user_id', $request->id)->sum('cart_quantity');
         $sum = CartModel::where('user_id', $request->id)->sum('cart_price');
 
         $productInfo = array();
-        $third = array();
+        $Total = array();
 
         foreach($productData as $response){
                 $temp = array();
+                $temp['CartID'] = $response->id;
                 $temp['ProductName'] = $response->product_name;
                 $temp['ProductPlatform'] = $response->product_platform;
                 $temp['ProductPrice'] = $response->product_price;
@@ -213,16 +213,20 @@ class ShopController extends Controller
         }
 
         foreach($cartData as $index => $cartData ){
-            $temp3 = array();
-            $temp3['TotalQuantity']  = $quantity;
-            $temp3['TotalPrice']  = $sum;
-            array_push($third, $temp3);
+            $temp = array();
+            $temp['TotalQuantity']  = $quantity;
+            $temp['TotalPrice']  = $sum;
+            array_push($Total, $temp);
         }
 
             $jsonProduct['ProductDetails'] = $productInfo;
-            $jsonThird['Total'] = $third;
+            $jsonTotal['Total'] = $Total;
 
-        echo json_encode($jsonProduct + $jsonThird);
+        echo json_encode($jsonProduct  + $jsonTotal);
+    }
+    public function deletecart($id){
+        CartModel::where('id', $id)->delete();
+        return Redirect::back()->withErrors(["The Item in your cart has been Deleted"]);
     }
     public function orderhistory(){
         $system = true;

@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>GameCommerce @yield('title')</title>
 
         <!-- Fonts -->
@@ -129,6 +128,7 @@
  @if(Auth::user() == null)
 @else
     <script type="text/javascript">
+
         function viewcart(){
             $('#modal').modal('show');
             $('.modal-title').text('My Cart');
@@ -143,11 +143,11 @@
                             $(".modal-body").html("<b>You don't have any items in your cart, Shop now.</b>");
                         }else{
                             $.each(response.ProductDetails, function(){
-
+                                var e = this['CartID'];
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src=''><div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
                                 // document.getElementsByClassName("temp")[0].innerHTML +="<p class='GamePrice'>Product Price: " + this['ProductPrice'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><div class='col-md-12'><p class='GamePlatform'>Game Platform: " + this['ProductPlatform'] + "</p></div>";
-                                document.getElementsByClassName("temp")[0].innerHTML += "<div class='col-md-6'><p class='GameQuantity'>Product Quantity: " + this['CartQuantity'] + "</p></div><div class='col-md-6'></div></div><br>";
+                                document.getElementsByClassName("temp")[0].innerHTML += "<div class='row'><div class='col-md-6'><p class='GameQuantity'>Product Quantity: " + this['CartQuantity'] + "</p></div><div class='col-md-6'><form method='POST' action='http://localhost:8000/deletecart/"+ e +"'><input type='submit' value='Delete'></form></div></div></div><br>";
                             });
 
                             $.each(response.Total, function(){
@@ -166,6 +166,7 @@
                 });
             });
         }
+        
     </script>
  @endif
     <script type="text/javascript" src="{{URL::to('/')}}/js/popper.min.js"></script>

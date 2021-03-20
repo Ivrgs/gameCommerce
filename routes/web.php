@@ -29,7 +29,6 @@ Route::get('/viewItem/{ItemId}', 'ShopController@show')->name('ShopViewItem');
 Route::post('/addtocart', 'ShopController@store')->name('ShopAddCart');
 Route::get('/viewCart/{id}', 'ShopController@showcart')->name('ShopViewCart');
 Route::post('/checkout', 'ShopController@checkout')->name('ShopCheckout');
-Route::post('/buynow', 'ShopController@directstore')->name('ShopBuyNow');
 Route::post('/wishlist', 'ShopController@wishstore')->name('ShopWishlist');
 Route::post('/removewish', 'ShopController@wishdestroy')->name('ShopRemoveWishlist');
 Route::get('/orders', 'ShopController@orderhistory')->name('ShopOrderHistory');

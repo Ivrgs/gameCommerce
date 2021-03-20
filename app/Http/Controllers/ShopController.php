@@ -70,34 +70,36 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        if(CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first()){
-            $updateCart = CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first();
-            $updateCart->cart_quantity = $updateCart->cart_quantity + $_POST['product_quantity'];
-            $updateCart->cart_price = ($_POST['product_final_price']) * ($updateCart->cart_quantity);
-            $updateCart->save();
-        }else{
-            $cart = new CartModel();
-            $cart->user_id = $_POST['user_id'];
-            $cart->product_id = $_POST['product_id'];
-            $cart->cart_quantity = $_POST['product_quantity'];
-            $cart->cart_price = $_POST['product_final_price'] * $_POST['product_quantity'];
-            $cart->save();
-        }
-        return Redirect::back()->withErrors(["Your Item has been added to your cart"]);
-    }
-    public function directstore(Request $request){
-        $bytes = random_bytes(5);
+        if($request->purchase_method == "Buy Now"){
+            $bytes = random_bytes(5);
 
-        $order = new OrderModel();
-        $order->order_number = bin2hex($bytes);
-        $order->user_id = $_POST['user_id'];
-        $order->product_id = $_POST['product_id'];
-        $order->order_quantity = 1;
-        $order->order_quantity = $_POST['product_quantity'];
-        $order->order_price = $_POST['product_final_price'];
-        $order->order_status = '0';
-        $order->save();
-        return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
+            $order = new OrderModel();
+            $order->order_number = bin2hex($bytes);
+            $order->user_id = $_POST['user_id'];
+            $order->product_id = $_POST['product_id'];
+            $order->order_quantity = 1;
+            $order->order_quantity = $_POST['product_quantity'];
+            $order->order_price = $_POST['product_final_price'];
+            $order->order_status = '0';
+            $order->save();
+            return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
+        }else{
+            if(CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first()){
+                $updateCart = CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first();
+                $updateCart->cart_quantity = $updateCart->cart_quantity + $_POST['product_quantity'];
+                $updateCart->cart_price = ($_POST['product_final_price']) * ($updateCart->cart_quantity);
+                $updateCart->save();
+            }else{
+                $cart = new CartModel();
+                $cart->user_id = $_POST['user_id'];
+                $cart->product_id = $_POST['product_id'];
+                $cart->cart_quantity = $_POST['product_quantity'];
+                $cart->cart_price = $_POST['product_final_price'] * $_POST['product_quantity'];
+                $cart->save();
+            }
+            return Redirect::back()->withErrors(["Your Item has been added to your cart"]);
+        }
+       
     }
     public function checkout(){
         $arr = OrderModel::join('tbl_shop', 'tbl_shop.id', '=', "tbl_orders.product_id")

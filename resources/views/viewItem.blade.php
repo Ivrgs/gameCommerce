@@ -52,31 +52,20 @@ In Stock
   @endif
 
 @if(Auth::user() == '')
-{{Form::button('Buy Now', ['class'=>'btn btn-warning'])}}
-{{-- Modal --}}
-@else
-{!!Form::open(['action'=>['ShopController@directstore'], 'method'=>'POST'])!!}
-{{Form::hidden('user_id', Auth::user()->id)}}
-{{Form::hidden('product_id', $shop->id)}}
-{{Form::hidden('product_quantity', 1 )}} {{--Must be on Modal--}}
-{{Form::hidden('product_final_price', $final_price )}}
-{{Form::hidden('_method','POST')}}
-{{Form::submit('Buy Now', ['class'=>'btn btn-warning'])}}
-{!! Form::close()!!}
-@endif
-
-@if(Auth::user() == '')
 {{Form::button('Add to cart', ['class'=>'btn btn-primary'])}}
 @else
 {!!Form::open(['action'=>['ShopController@store'], 'method'=>'POST'])!!}
 {{Form::hidden('user_id', Auth::user()->id)}}
 {{Form::hidden('product_id', $shop->id)}}
-{{Form::text('product_quantity', '', ['class' => 'form-control', 'required'])}}
+{{Form::text('product_quantity', '1', ['class' => 'form-control', 'required'])}}
 {{Form::hidden('product_final_price', $final_price )}}
 {{Form::hidden('_method','POST')}}
-{{Form::submit('Add to cart', ['class'=>'btn btn-primary'])}}
+{{Form::hidden('purchase_method', 'to_cart')}}
+{{Form::submit('Buy Now', ['class'=>'btn btn-warning', 'name'=> 'purchase_method'])}}
+{{Form::submit('Add to cart', ['class'=>'btn btn-primary', 'name'=> 'purchase_method'])}}
 {!! Form::close()!!}
 @endif
+
 {{-- <button  data-toggle="modal" data-target="#exampleModal">Review</button></a>
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

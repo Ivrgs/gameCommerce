@@ -7,7 +7,7 @@
 <p>Description: {{ $shop->product_description }}</p>
 <p> Platform: {{ $shop->product_platform }}</p>
 <p>
-    @if ($shop->product_quantity == 0)
+    @if ($shop->product_quantity == 0 || $shop->product_status == 0)
     Out of Stock
    @else
 In Stock

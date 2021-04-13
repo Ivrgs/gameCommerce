@@ -31,4 +31,7 @@ class CreateCmsTable extends Migration
     {
         Schema::dropIfExists('tbl_cms');
     }
+    public function seed() {
+        return CMSTableSeeder;
+    }
 }

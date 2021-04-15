@@ -16,7 +16,7 @@ class CreateSystemreqTable extends Migration
         Schema::create('tbl_systemreq', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('product_id');
-            $table->enum('category',['Minimum','Recomended']);
+            $table->integer('system_category');
             $table->text('processor');
             $table->text('graphics_card');
             $table->text('memory');

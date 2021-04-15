@@ -14,7 +14,7 @@ class CreateVoucherStorage extends Migration
     public function up()
     {
         Schema::create('tbl_voucher_storage', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('voucher_id');
             $table->string('user_id');
             $table->timestamp('created_at')->useCurrent();

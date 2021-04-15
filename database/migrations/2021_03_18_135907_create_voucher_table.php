@@ -14,7 +14,7 @@ class CreateVoucherTable extends Migration
     public function up()
     {
         Schema::create('tbl_voucher', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->string('voucher_code');
             $table->string('voucher_description');
             $table->date('voucher_expiration');

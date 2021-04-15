@@ -21,10 +21,10 @@ class CreateShopTable extends Migration
             $table->string('product_platform');
             $table->float('product_price', 8, 2);
             $table->integer('product_quantity');
-            $table->enum('product_status',['0','1','2']);
-            $table->enum('sale',['0','1']);
+            $table->integer('product_status');
+            $table->integer('sale');
             $table->float('sale_price', 8, 2)->nullable();
-            $table->enum('featured',['0','1']);
+            $table->integer('product_featured');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

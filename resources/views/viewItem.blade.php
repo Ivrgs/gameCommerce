@@ -3,7 +3,7 @@
 @section('shopcontents')
 
 <!-- Picture -->
-<p> Picture: <img src="{{ $shop->product_image }}"></img</p>
+<p> Picture: <img src="{{ $shop->product_image }}" style="width:250px;"></img</p>
 <!-- Sale Or Not -->
 <p>Php. @if($shop->sale == 1) 
           <del>{{ $shop->product_price }}.00</del>  {{ $final_price = $shop->sale_price }}.00</p>  

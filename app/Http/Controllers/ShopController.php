@@ -8,8 +8,16 @@ use \Mailjet\Resources;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 
-use Auth, App\User, Redirect;
-use App\ShopModel, App\SysReqModel, App\CartModel, App\OrderModel, App\WishModel, App\ReviewModel, App\CartDetails;
+use Auth, Redirect, 
+App\User,
+App\ShopModel, 
+App\SysReqModel, 
+App\CartModel, 
+App\OrderModel, 
+App\WishModel, 
+App\ReviewModel, 
+App\CartDetails,
+App\CMSModel;
 
 
 class ShopController extends Controller
@@ -151,6 +159,21 @@ class ShopController extends Controller
         $wish = '';
         $shop = ShopModel::find($id);
 
+        $cmsStatus = CMSModel::where('type', "product_status")->where('value', $shop->product_status)->get('title');
+        $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $shop->product_platform)->get('title');
+
+        foreach($cmsStatus as $text){
+            $cmsStatus = $text->title;
+        }
+        foreach($cmsPlatform as $text){
+            $cmsPlatform = $text->title;
+        }
+
+        $CMSPack = array(
+            'cmsStatus' => $cmsStatus,
+            'cmsPlatform' => $cmsPlatform
+        );
+      
         if ($system = SysReqModel::get()) {
             $system = "error";
         }else if ($system = SysReqModel::where('product_id', $id)->get() == "0") {
@@ -187,7 +210,7 @@ class ShopController extends Controller
             $wish = null;
         }
 
-        return view('viewItem', compact('shop', 'system', 'review', 'user', 'wish'));
+        return view('viewItem', compact('shop', 'system', 'review', 'user', 'wish', 'CMSPack'));
     }
 
     //View Cart Ajax Modal

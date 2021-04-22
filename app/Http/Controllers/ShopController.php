@@ -78,7 +78,7 @@ class ShopController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        if($request->purchase_method == "Buy Now"){
+        if($request->purchase_method == "buy_now"){
             $bytes = random_bytes(5);
 
             $order = new OrderModel();
@@ -86,10 +86,18 @@ class ShopController extends Controller
             $order->user_id = $_POST['user_id'];
             $order->product_id = $_POST['product_id'];
             $order->order_quantity = 1;
-            $order->order_quantity = $_POST['product_quantity'];
             $order->order_price = $_POST['product_final_price'];
             $order->order_status = '0';
             $order->save();
+
+            $shop = ShopModel::find($_POST['product_id']);
+            $shop->product_quantity = $shop->product_quantity - 1;
+            
+            if($shop->product_quantity == 0){
+                $shop->product_status = 0;
+            }
+            $shop->save();
+
             return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
         }else{
             if(CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first()){

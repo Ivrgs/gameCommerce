@@ -2,105 +2,91 @@
 @section('title', '| '.$shop->product_name)
 @section('shopcontents')
 
-<p> {{ $shop->product_image }}</p>
-<p>Game Title: {{ $shop->product_name }}</p>
-<p>Description: {{ $shop->product_description }}</p>
-<p> Platform: {{ $shop->product_platform }}</p>
-<p>
-    @if ($shop->product_quantity == 0 || $shop->product_status == 0)
-    Out of Stock
-   @else
-In Stock
-   @endif
-
-
-<p>Php. @if($shop->sale_price == 0.00)
-          {{ $final_price = $shop->product_price }}.00</p>
+<!-- Picture -->
+<p> Picture: <img src="{{ $shop->product_image }}"></img</p>
+<!-- Sale Or Not -->
+<p>Php. @if($shop->sale == 1) 
+          <del>{{ $shop->product_price }}.00</del>  {{ $final_price = $shop->sale_price }}.00</p>  
+          <!-- JS Function to disable Buy now and Add to cart button-->     
         @else
-          {{ $final_price = $shop->sale_price }}.00</p>
+          {{ $final_price = $shop->product_price }}.00</p>
+          <!-- JS Function to enable Buy now and Add to cart button-->     
         @endif
-<p>
-
-
-
-
-
-
-  @if(Auth::user() == '')
-  {{Form::button('Wishlist', ['class'=>'btn btn-info'])}}
-  @else
-  @if($wish == true)
-  {!!Form::open(['action'=>['ShopController@wishdestroy'], 'method'=>'POST'])!!}
-  @else
-  {!!Form::open(['action'=>['ShopController@wishstore'], 'method'=>'POST'])!!}
-  @endif
-
-
-
-  {{Form::hidden('user_id', Auth::user()->id)}}
-  {{Form::hidden('product_id', $shop->id)}}
-
-    @if($wish == true)
-    {{Form::submit('Remove Wishlist', ['class'=>'btn btn-info'])}}
-
-    @elseif($wish == false)
-    {{Form::submit('Wishlist', ['class'=>'btn btn-info'])}}
-    @else
-    @endif
-    {!! Form::close()!!}
-
-  @endif
 
 @if(Auth::user() == '')
-{{Form::button('Add to cart', ['class'=>'btn btn-primary'])}}
+  <input type="button" value="Login First"></input>
+  <!-- Product Title -->
+  <p>Game Title: {{ $shop->product_name }}</p>
+  <!-- Product Status -->
+  <p>{{$CMSPack['cmsStatus']}}</p>
+  <!-- To Cart / Buy Now -->
 @else
-{!!Form::open(['action'=>['ShopController@store'], 'method'=>'POST'])!!}
-{{Form::hidden('user_id', Auth::user()->id)}}
-{{Form::hidden('product_id', $shop->id)}}
-{{Form::text('product_quantity', '1', ['class' => 'form-control', 'required'])}}
-{{Form::hidden('product_final_price', $final_price )}}
-{{Form::hidden('_method','POST')}}
-{{Form::hidden('purchase_method', 'to_cart')}}
-{{Form::submit('Buy Now', ['class'=>'btn btn-warning', 'name'=> 'purchase_method'])}}
-{{Form::submit('Add to cart', ['class'=>'btn btn-primary', 'name'=> 'purchase_method'])}}
-{!! Form::close()!!}
+
+  <!-- Wishlist -->
+  @if(Auth::user() == '')
+    {{Form::button('Wishlist', ['class'=>'btn btn-info'])}}
+  @else
+    @if($wish == true)
+      {!!Form::open(['action'=>['ShopController@wishdestroy'], 'method'=>'POST'])!!}
+    @else
+      {!!Form::open(['action'=>['ShopController@wishstore'], 'method'=>'POST'])!!}
+  @endif
+
+    {{Form::hidden('user_id', Auth::user()->id)}}
+    {{Form::hidden('product_id', $shop->id)}}
+
+    @if($wish == true)
+      {{Form::submit('Remove Wishlist', ['class'=>'btn btn-info'])}}
+    @else
+      {{Form::submit('Wishlist', ['class'=>'btn btn-info'])}}
+    @endif
+      {!! Form::close()!!}
+  @endif
+
+
+  @if($shop->product_status == 0)
+
+  @else
+    {!!Form::open(['action'=>['ShopController@store'], 'method'=>'POST'])!!}
+    {{Form::hidden('user_id', Auth::user()->id)}}
+    {{Form::hidden('product_id', $shop->id)}}
+    {{Form::hidden('product_quantity', '1')}}
+    {{Form::hidden('product_final_price', $final_price )}}
+    {{Form::hidden('_method','POST')}}
+    {{Form::hidden('purchase_method', 'buy_now')}}
+    {{Form::submit('Buy Now', ['class'=>'btn btn-warning'])}}
+    {!! Form::close()!!}
+  @endif
+
+  <!-- Product Title -->
+  <p>Game Title: {{ $shop->product_name }}</p>
+  <!-- Product Status -->
+  <p>{{$CMSPack['cmsStatus']}}</p>
+  <!-- To Cart / Buy Now -->
+
+  @if($shop->product_status == 0)
+
+  @else
+    {!!Form::open(['action'=>['ShopController@store'], 'method'=>'POST'])!!}
+    {{Form::hidden('user_id', Auth::user()->id)}}
+    {{Form::hidden('product_id', $shop->id)}}
+    {{Form::text('product_quantity', '1', ['class' => 'form-control', 'required'])}}
+    {{Form::hidden('product_final_price', $final_price )}}
+    {{Form::hidden('_method','POST')}}
+    {{Form::hidden('purchase_method', 'to_cart')}}
+    {{Form::submit('Add to cart', ['class'=>'btn btn-primary', 'name'=> 'purchase_method'])}}
+    {!! Form::close()!!}
+  @endif
 @endif
 
-{{-- <button  data-toggle="modal" data-target="#exampleModal">Review</button></a>
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-      <h5 class="modal-title" id="exampleModalLabel">{{ $shop->product_name }}</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        {!!Form::open(['action'=>['HomeController@updatePassword', Auth::user()->id], 'method'=>'POST'])!!}
-          <div class="form-group">
-              <p>{{Form::label('Review Item','Review Item')}}</p>
-                <p>{{Form::textarea('textarea', 'asd', ['class'=>'form-control', 'rows'=>4, 'style' => 'resize:none'])}}</p>
-                  <p>{{Form::label('Rating','Rating')}}</p>
-                <p>1 {{Form::radio('rating', '1', false)}}</p>
-                <p>2 {{Form::radio('rating', '2', false)}}</p>
-              <p>3 {{Form::radio('rating', '3', false)}}</p>
-                <p>4 {{Form::radio('rating', '4', false)}}</p>
-                  <p>5 {{Form::radio('rating', '5', true)}}</p>
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        {{Form::hidden('_method','POST')}}
-        {{Form::submit('Rate', ['class'=>'btn btn-primary'])}}
-        {!! Form::close()!!}
-      </div>
-    </div>
-  </div>
-</div> --}}
+<!-- Description -->
+<p>Description: {{ $shop->product_description }}</p>
+<!-- Platform -->
+<p> Platform: {{ $CMSPack['cmsPlatform'] }}</p>
+<!-- Product Quantity -->
+<p>{{ $shop->product_quantity }} Available</p>
 
-
+<!-- Next Section -->
  <!-- Tab links -->
  <div class="tab">
     <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">System Requirements</button>

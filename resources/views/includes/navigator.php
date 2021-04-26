@@ -1,8 +1,3 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-@include('includes.header')
-
-    <body>
 
     <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
             <div class="container-fluid">
@@ -54,18 +49,3 @@
                 </ul>
             </div>
         </nav>
-        
-        
-            @yield('shopcontents')
-            @yield('content')
-        @include('includes.footer')
-        @include('includes.modal')
-     
-    </body>
-{{--AJAX Modal --}}
-@include('includes.ajax')
-
-    <script type="text/javascript" src="{{URL::to('/')}}/js/popper.min.js"></script>
-    <script type="text/javascript" src="{{URL::to('/')}}/js/app.js"></script>
-    <script type="text/javascript" src="{{URL::to('/')}}/js/custom.js"></script>
-</html>

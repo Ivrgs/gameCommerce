@@ -10,73 +10,66 @@
         <link rel="stylesheet" href="{{URL::to('/')}}/css/app.css">
         <link rel="stylesheet" href="{{URL::to('/')}}/css/custom.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <script type="text/javascript" src="{{URL::to('/')}}/jquery/jquery-3.5.1.min.js"></script>
 
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark sticky-top">
             <div class="container-fluid">
-                <div class="row" style="width: 100%;">
-                    <div class="col-md-9">
-                        <div class="navbar-header">
-                        <a class="navbar-brand" href="{{ url('/') }}">gameCommerce</a>
-                        </div>
-                    </div>
-
-                    <div class="col-md-1">
-                    <a onclick=viewcart()>
-                        <i class="fa fa-shopping-cart" aria-hidden="true">
-
-                            <span class="num">99+</span>
-                        </i>
-                    </a>
-
-                    </div>
-                    <div class="col-md-2">
-                        @if (Route::has('login'))
-
-                        <div class="top-right links">
-                            <div class="UpperOption">
-                            @auth
-                            @if($errors->any())
-                            <h4>{{$errors->first()}}</h4>
-                            @endif
-                                <a href="{{ url('/home') }}">  {{{ isset(Auth::user()->id) ? Auth::user()->username : Auth::user()->username }}}</a>
-                            @else
-
-                            @if (session('status-success'))
-                            <span class="alert alert-success">
-                                {{ session('status-success') }}
-                            </span>
-                            @endif
-
-
-                                <a href="{{ route('login') }}">Login</a>
-
-                                @if (Route::has('register'))
-                                    <a href="{{ route('register') }}">Register</a>
-                                @endif
-                            @endauth
-
-
-                        </div>
-                    @endif
-                        </div>
-                    </div>
+                <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url('/') }}">gameCommerce</a>
                 </div>
-
-
-
                 <ul class="nav navbar-nav">
+                <div class="UpperOption">
+                   <li class="nav-item">
 
+                   <a class="fa fa-shopping-cart" aria-hidden="true" onclick=viewcart() }}>
+                    <span class="fa fa-comment"></span>
+                        <span class="num">99+</span>
 
+                      </a>
 
+                   </li>
+                  <!-- Authentication Links -->
+                  @guest
+                  <li class="nav-item">
+                      <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                  </li>
+                  @if (Route::has('register'))
+                      <li class="nav-item">
+                          <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                      </li>
+                  @endif
+              @else
+                  <li class="nav-item dropdown">
+                      <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                          {{ Auth::user()->name }}
+                      </a>
+
+                      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="{{ route('Home Controller') }}">Dashboard</a>
+                          <a class="dropdown-item" href="{{ route('logout') }}"
+                             onclick="event.preventDefault();
+                                           document.getElementById('logout-form').submit();">
+                              {{ __('Logout') }}
+                          </a>
+
+                          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                              @csrf
+                          </form>
+                      </div>
+                  </li>
+              @endguest
+                    </div>
                 </ul>
             </div>
         </nav>
 
 
             @yield('shopcontents')
-
+            @yield('content')
+            @yield('try')
+            
             <footer class="InputFullWidth">
                 <div class="row">
                     <div class="col-md-12">

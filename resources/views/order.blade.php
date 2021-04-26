@@ -1,4 +1,4 @@
-@extends('layouts.user')
+@extends('layouts.master')
 
 @section('content')
     <h1 style="text-align: center; padding-top:1vw;"> My Order History </h1>

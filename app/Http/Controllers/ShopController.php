@@ -260,31 +260,36 @@ class ShopController extends Controller
         return Redirect::back()->withErrors(["The Item in your cart has been Deleted"]);
     }
     public function orderhistory(){
-        $system = true;
-
         if(OrderModel::where('user_id', Auth::user()->id)->get() == null){
-            $system = false;
+            $system = "No Orders Yet";
+            return view('order', compact('system'));
         }else{
             $system = true;
-            $arr = OrderModel::join('tbl_shop', 'tbl_shop.id', '=', "tbl_orders.product_id")
-            ->where("user_id", Auth::user()->id)->get();
-            $grouped = $arr->groupBy('order_number');
-            $sample = array();
+            $orders = OrderModel::where("user_id", Auth::user()->id)->groupBy('order_number')->get();
+            $holder = array();
 
-            foreach($arr as $a){
-                $temp = array();
-                $temp['jk'] = $a->order_number;
-                array_push($sample, $temp);
-            }
-            if(isset($a) == ""){
+            foreach($orders as $order){
+                $totalPrice = OrderModel::where('order_number',  $order->order_number)->sum('order_price');
+                $totalQuantity = OrderModel::where('order_number',  $order->order_number)->sum('order_quantity');
+                $cmsStatus = CMSModel::where('type', "order_status")->where('value', $order->order_status)->get('title');
 
-            }else{
-                $totalPrice = OrderModel::where('order_number', $a->order_number)->sum('order_price');
-                $totalQuantity = OrderModel::where('order_number', $a->order_number)->sum('order_quantity');
-                return view('order', compact('grouped','totalPrice', 'totalQuantity','system'));
+                $inner = array();
+                $inner['order_number'] = $order->order_number;
+                $inner['total_quantity'] = $totalQuantity;
+                $inner['total_price'] = $totalPrice;
+                $inner['order_status'] = $cmsStatus;
+                $inner['created_at'] = $order->created_at;
+
+                foreach($cmsStatus as $text){
+                    $cmsStatus = $text->title;
+                }
+
+                $inner['order_status'] = $cmsStatus;
+                array_push($holder, $inner);
             }
+                return view('order', compact('holder','system'));
         }
-        return view('order', compact('system'));
+
     }
     /**
      * Update the specified resource in storage.

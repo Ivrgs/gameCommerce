@@ -4,7 +4,7 @@
 
         function viewcart(){
             $('#modal').modal('show');
-            $('.modal-title').text('My Cart');
+            $('.cart-title').text('My Cart');
                 //Ajax Load data from ajax
             $(document).ready(function() {
                 $.ajax({
@@ -13,7 +13,7 @@
                     dataType: "JSON",
                     success: function(response){
                         if(response.ProductDetails == 0 || response.Total == 0){
-                            $(".modal-body").html("<b>You don't have any items in your cart, Shop now.</b>");
+                            $(".cart-body").html("<b>You don't have any items in your cart, Shop now.</b>");
                         }else{
                             $.each(response.ProductDetails, function(){
                                 var e = this['CartID'];

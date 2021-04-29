@@ -4,14 +4,14 @@
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
+                    <h5 class="modal-title cart-title" id="exampleModalLabel">
                       <div class="Numb"></div>
                     </h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body cart-body">
                         <div class="temp"></div>
                         <div class="Total"></div>
                         <div class="Price"></div>

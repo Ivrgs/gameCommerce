@@ -39,6 +39,48 @@
                 });
             });
         }
-        
+
+    $( "form" ).submit(function( event ) {
+        $('#viewOrder').modal('show');
+        var orderNum = $(this).serializeArray();
+
+        $.each(orderNum, function(i, field){
+            orderNum = field.value + " ";
+        });
+
+        $.ajax({
+            url :'{{ route('ShopViewOrder', 'orderNum')}}',
+            type: "GET",
+            data: {"id" : orderNum}, 
+            dataType: "JSON",
+            success: function(response){
+                $.each(response.OrderData, function(){
+                    $('.modal-title').text("Order #: " + this['order_number']); 
+                        document.getElementsByClassName("temp2")[0].innerHTML +=  "<div class='col-md-4'><img src='" + this['product_image'] + "' style='width:100px;'></img></div>"+ 
+                                                                                "<div class='col-md-4'><div class=''>"+ this['product_name'] +"</div>" + 
+                                                                                "<div class=''>Platform: " + this['product_platform'] + "</div>" + 
+                                                                                "<div class=''>"+ this['order_quantity'] + "x</div></div>" + 
+                                                                                "<div class='col-md-4'><div class=''>" + this['order_status'] +"</div>" + 
+                                                                                "<div class=''>Php. " +  this['order_price']+"</div></div>";
+                         $('.OrderFooter').text("Date: " + this['order_date']); 
+                });
+
+                $.each(response.TotalOrder, function(){
+                    document.getElementsByClassName("OrderTotal")[0].innerHTML = this['TotalQuantity'] + " Item/s";
+                    document.getElementsByClassName("OrderPrice")[0].innerHTML = "Php." + this['TotalPrice'];
+                });
+
+                $("#viewOrder").on("hidden.bs.modal", function(){
+                    $('.temp2').empty();
+                    $('.OrderPrice').empty();
+                    $('.OrderTotal').empty();
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown){
+                alert('Data not Found');
+            }
+        });
+        event.preventDefault();
+    });
     </script>
  @endif

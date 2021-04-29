@@ -35,4 +35,5 @@ Route::post('/removewish', 'ShopController@wishdestroy')->name('ShopRemoveWishli
 Route::get('/orders', 'ShopController@orderhistory')->name('ShopOrderHistory');
 Route::get('/wishlist', 'ShopController@wishlist')->name('ShopMyWishlist');
 
+Route::get('/viewOrder/{orderNum}', 'ShopController@showorder')->name('ShopViewOrder');
 Route::get('/about', 'ShopController@about')->name('ShopAbout');

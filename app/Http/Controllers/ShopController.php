@@ -291,6 +291,53 @@ class ShopController extends Controller
         }
 
     }
+    public function showorder(Request $request){
+        $orders = OrderModel::where('order_number', $request->id)->where('user_id', Auth::user()->id)->get();
+        $holder = array();
+        $totalPrice = $orders->sum('order_price');
+        $totalQuantity = $orders->sum('order_quantity');
+        $Total = array();
+
+        foreach($orders as $order){
+            $inner = array();
+            $product = ShopModel::find($order->product_id);
+            $OrderNumber = OrderModel::where('order_number', $order->order_number)->where("user_id", Auth::user()->id)->groupBy('order_number')->get();
+
+            $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $product->product_platform)->get('title');
+            $cmsOrderStatus = CMSModel::where('type', "order_status")->where('value', $order->order_status)->get('title');
+            foreach($cmsPlatform as $text){
+                $cmsPlatform = $text->title;
+            }
+            foreach($cmsOrderStatus as $text){
+                $cmsOrderStatus = $text->title;
+            }
+            foreach($OrderNumber as $text){
+                $OrderNumber = $text->order_number;
+                $OrderDate = $text->updated_at;
+            }
+          
+            $inner['order_number'] = $OrderNumber;
+            $inner['product_image'] = $product->product_image;
+            $inner['product_name'] = $product->product_name;
+            $inner['product_platform'] = $cmsPlatform ;
+            $inner['order_price'] = $order->order_price;
+            $inner['order_quantity'] = $order->order_quantity;
+            $inner['order_status'] = $cmsOrderStatus;
+            $inner['order_date'] = $OrderDate;
+            array_push($holder, $inner);
+        }
+        foreach($orders as $index => $orders ){
+            $temp = array();
+            $temp['TotalPrice']  = $totalPrice;
+            $temp['TotalQuantity']  = $totalQuantity;
+            array_push($Total, $temp);
+        }
+
+        $jsonTotal['TotalOrder'] = $Total;
+        $jsonData['OrderData'] = $holder;
+
+        echo json_encode($jsonData + $jsonTotal);
+    }
     /**
      * Update the specified resource in storage.
      *

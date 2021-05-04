@@ -17,7 +17,17 @@
                         }else{
                             $.each(response.ProductDetails, function(){
                                 var e = this['CartID'];
-                                document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src=''><div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
+                                if(this['ProductImage'] == null){
+                                    document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src='{{ url('images/imageholder.png') }}' style='width:100px;'>";
+                                }else{
+                                    document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src='"+this['ProductImage']+"' style='width:100px;'>";
+                                }
+                                
+                               
+                                
+                               
+                               
+                                document.getElementsByClassName("temp")[0].innerHTML +="<div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
                                 // document.getElementsByClassName("temp")[0].innerHTML +="<p class='GamePrice'>Product Price: " + this['ProductPrice'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><div class='col-md-12'><p class='GamePlatform'>Game Platform: " + this['ProductPlatform'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML += "<div class='row'><div class='col-md-6'><p class='GameQuantity'>Product Quantity: " + this['CartQuantity'] + "</p></div><div class='col-md-6'><form method='POST' action='http://localhost:8000/deletecart/"+ e +"'><input type='submit' value='Delete'></form></div></div></div><br>";
@@ -56,8 +66,13 @@
             success: function(response){
                 $.each(response.OrderData, function(){
                     $('.modal-title').text("Order #: " + this['order_number']); 
-                        document.getElementsByClassName("temp2")[0].innerHTML +=  "<div class='col-md-4'><img src='" + this['product_image'] + "' style='width:100px;'></img></div>"+ 
-                                                                                "<div class='col-md-4'><div class=''>"+ this['product_name'] +"</div>" + 
+                        if(this['product_image'] == null){
+                        document.getElementsByClassName("temp2")[0].innerHTML +=  "<div class='col-md-4'><img src='{{ url('images/imageholder.png') }}' style='width:100px;'></img></div>";
+                        }else{
+                        document.getElementsByClassName("temp2")[0].innerHTML +=  "<div class='col-md-4'><img src='" + this['product_image'] + "' style='width:100px;'></img></div>";
+                                                                                
+                        }
+                        document.getElementsByClassName("temp2")[0].innerHTML += "<div class='col-md-4'><div class=''>"+ this['product_name'] +"</div>" + 
                                                                                 "<div class=''>Platform: " + this['product_platform'] + "</div>" + 
                                                                                 "<div class=''>"+ this['order_quantity'] + "x</div></div>" + 
                                                                                 "<div class='col-md-4'><div class=''>" + this['order_status'] +"</div>" + 

@@ -10,6 +10,13 @@
                     @foreach ($shop as $items)
                                                          <div class="row">
                         <div class="col-md-2"><p>
+                                                        <div>
+                                                         @if($items->product_image =="")
+                                                         <img src="/images/imageholder.png" style="width:250px;">
+                                                         @else
+                                                         <img src="{{$items->product_image}}" style="width:250px;">
+                                                         @endif
+                                                         </div>
                                                             {{ $items->product_name }}
                         </p></p>
                         Php. {{ $items->product_price }}.00

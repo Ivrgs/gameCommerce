@@ -235,6 +235,7 @@ class ShopController extends Controller
         foreach($productData as $response){
                 $temp = array();
                 $temp['CartID'] = $response->id;
+                $temp['ProductImage'] = $response->product_image;
                 $temp['ProductName'] = $response->product_name;
                 $temp['ProductPlatform'] = $response->product_platform;
                 $temp['ProductPrice'] = $response->product_price;

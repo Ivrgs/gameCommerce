@@ -3,7 +3,11 @@
 @section('shopcontents')
 
 <!-- Picture -->
-<p> Picture: <img src="{{ $shop->product_image }}" style="width:250px;"></img</p>
+@if($shop->product_image == null)
+<p> Picture: <img src="{{ url('images/imageholder.png') }}" style="width:100px;"></img</p>
+@else
+<p> Picture: <img src="{{ $shop->product_image }}" style="width:100px;"></img</p>
+@endif
 <!-- Sale Or Not -->
 <p>Php. @if($shop->sale == 1) 
           <del>{{ $shop->product_price }}.00</del>  {{ $final_price = $shop->sale_price }}.00</p>  

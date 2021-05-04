@@ -15,7 +15,11 @@
         <div class="container" style="width: 50%;">
          @foreach($sample as $test)
             @foreach($test['ProductData'] as $tru)
-                <img src="{{ $tru['product_image']}}">
+               @if($tru['product_image'] == null)
+               <img src="{{ url('images/imageholder.png') }}" style="width:200px">
+               @else
+                    <img src="{{ $tru['product_image']}}"  style="width:200px">
+               @endif
                 {{ $tru['product_name']}}
                 {{ $tru['product_price']}}
 

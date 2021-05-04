@@ -28,7 +28,7 @@
                             <div><p>{{ $one['created_at'] }}</p></div>
                             <div class="col-md-4" style="float:left;"><p>{{ $one['total_quantity'] }}x</p></div>
                         <div class="col-md-4" style="text-align:right;"><p> Php. {{ $one['total_price'] }}</p></div>
-                        <form>
+                        <form class="ViewOrder">
                         <div class="form-group">
                                         {{Form::hidden('order_number', $one['order_number']) }}
                         <div class="col-md-4" >{{Form::submit("View Order", ["class='btn btn-primary' style='width:100%;'"])}}</div>

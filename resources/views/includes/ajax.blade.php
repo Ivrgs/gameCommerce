@@ -40,7 +40,7 @@
             });
         }
 
-    $( "form" ).submit(function( event ) {
+    $( ".ViewOrder" ).submit(function( event ) {
         $('#viewOrder').modal('show');
         var orderNum = $(this).serializeArray();
 

@@ -8,7 +8,7 @@
                 //Ajax Load data from ajax
             $(document).ready(function() {
                 $.ajax({
-                    url :'{{ route('ShopViewCart', Auth::user()->id) }}',
+                    url :'{{ route('Show Cart', Auth::user()->id) }}',
                     type: "GET",
                     dataType: "JSON",
                     success: function(response){
@@ -59,7 +59,7 @@
         });
 
         $.ajax({
-            url :'{{ route('ShopViewOrder', 'orderNum')}}',
+            url :'{{ route('View Order', 'orderNum')}}',
             type: "GET",
             data: {"id" : orderNum}, 
             dataType: "JSON",

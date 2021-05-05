@@ -20,7 +20,7 @@
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     {{-- <a href="{{ url("viewCart/".Auth::user()->id) }}"><button type="button" class="btn btn-info">Checkout</button></a> --}}
-                    {!!Form::open(['action'=>['ShopController@checkout'], 'method'=>'POST'])!!}
+                    {!!Form::open(['action'=>['CartController@create'], 'method'=>'POST'])!!}
                     {{Form::hidden('user_id', Auth::user()->id)}}
                     {{Form::hidden('_method','POST')}}
                     {{Form::submit('Checkout', ['class'=>'btn btn-info'])}}

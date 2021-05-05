@@ -19,21 +19,24 @@ Auth::routes(['verify' => true]);
 // Route::post('/Verify', 'Auth\RegisterController@create')->name("Verify.Account");
 
 Route::get('/home', 'HomeController@index')->name('Home Controller');
+Route::get('/about', 'HomeController@about')->name('About Page');
 Route::post('/updateAccount/{id}', 'HomeController@updatePassword')->name('User Password');
-Route::get('/mail', 'ShopController@sendEmail');
-Route::get('/reviewItem', 'ReviewController@index')->name('Review.Controller');
+Route::get('/mail', 'HomeController@sendEmail');
 
+Route::get('/reviewItem', 'ReviewController@index')->name('Add Review');
 
 Route::get('/', 'ShopController@index')->name('ShopController');
-Route::get('/viewItem/{ItemId}', 'ShopController@show')->name('ShopViewItem');
-Route::post('/addtocart', 'ShopController@store')->name('ShopAddCart');
-Route::get('/viewCart/{id}', 'ShopController@showcart')->name('ShopViewCart');
-Route::post('/deletecart/{id}', 'ShopController@deletecart')->name('ShopDeleteCart');
-Route::post('/checkout', 'ShopController@checkout')->name('ShopCheckout');
-Route::post('/wishlist', 'ShopController@wishstore')->name('ShopWishlist');
-Route::post('/removewish', 'ShopController@wishdestroy')->name('ShopRemoveWishlist');
-Route::get('/orders', 'ShopController@orderhistory')->name('ShopOrderHistory');
-Route::get('/wishlist', 'ShopController@wishlist')->name('ShopMyWishlist');
+Route::get('/viewItem/{id}', 'ShopController@show')->name('View Item');
 
-Route::get('/viewOrder/{orderNum}', 'ShopController@showorder')->name('ShopViewOrder');
-Route::get('/about', 'ShopController@about')->name('ShopAbout');
+Route::post('/addtocart', 'CartController@store')->name('Cart Add');
+Route::get('/viewCart/{id}', 'CartController@show')->name('Show Cart');
+Route::post('/deletecart/{id}', 'CartController@destroy')->name('Cart Destroy');
+Route::post('/checkout', 'CartController@create')->name('Cart Checkout');
+
+Route::post('/removewish', 'WishController@destroy')->name('Destroy Wish');
+Route::post('/wishlist', 'WishController@store')->name('Add Wish');
+Route::get('/wishlist', 'WishController@index')->name('Show Wish');
+
+Route::get('/orders', 'OrderController@index')->name('Show Order');
+Route::get('/viewOrder/{orderNum}', 'OrderController@show')->name('View Order');
+

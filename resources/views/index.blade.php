@@ -20,7 +20,7 @@
                                                             {{ $items->product_name }}
                         </p></p>
                         Php. {{ $items->product_price }}.00
- </p><p><a href="{{ route('ShopViewItem', $items->id) }}"><button >View</button></a></p>
+ </p><p><a href="{{ route('View Item', $items->id) }}"><button >View</button></a></p>
 
 
                     </div>

@@ -23,7 +23,7 @@
                 {{ $tru['product_name']}}
                 {{ $tru['product_price']}}
 
-                {!!Form::open(['action'=>['ShopController@wishdestroy'], 'method'=>'POST'])!!}
+                {!!Form::open(['action'=>['WishController@destroy'], 'method'=>'POST'])!!}
                 {{Form::hidden('user_id', Auth::user()->id)}}
                 {{Form::hidden('product_id', $tru['id'])}}
                 {{Form::submit('Remove Wishlist', ['class'=>'btn btn-danger'])}}

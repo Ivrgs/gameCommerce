@@ -31,9 +31,9 @@
     {{Form::button('Wishlist', ['class'=>'btn btn-info'])}}
   @else
     @if($wish == true)
-      {!!Form::open(['action'=>['ShopController@wishdestroy'], 'method'=>'POST'])!!}
+      {!!Form::open(['action'=>['WishController@destroy'], 'method'=>'POST'])!!}
     @else
-      {!!Form::open(['action'=>['ShopController@wishstore'], 'method'=>'POST'])!!}
+      {!!Form::open(['action'=>['WishController@store'], 'method'=>'POST'])!!}
   @endif
 
     {{Form::hidden('user_id', Auth::user()->id)}}
@@ -51,7 +51,7 @@
   @if($shop->product_status == 0)
 
   @else
-    {!!Form::open(['action'=>['ShopController@store'], 'method'=>'POST'])!!}
+    {!!Form::open(['action'=>['CartController@store'], 'method'=>'POST'])!!}
     {{Form::hidden('user_id', Auth::user()->id)}}
     {{Form::hidden('product_id', $shop->id)}}
     {{Form::hidden('product_quantity', '1')}}
@@ -71,7 +71,7 @@
   @if($shop->product_status == 0)
 
   @else
-    {!!Form::open(['action'=>['ShopController@store'], 'method'=>'POST'])!!}
+    {!!Form::open(['action'=>['CartController@store'], 'method'=>'POST'])!!}
     {{Form::hidden('user_id', Auth::user()->id)}}
     {{Form::hidden('product_id', $shop->id)}}
     {{Form::text('product_quantity', '1', ['class' => 'form-control', 'required'])}}

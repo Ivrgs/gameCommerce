@@ -2,6 +2,10 @@
 @section('title', '| '.$shop->product_name)
 @section('shopcontents')
 
+@if($errors->any())
+<h4>{{$errors->first()}}</h4>
+@endif
+
 <!-- Picture -->
 @if($shop->product_image == null)
 <p> Picture: <img src="{{ url('images/imageholder.png') }}" style="width:100px;"></img</p>

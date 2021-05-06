@@ -14,11 +14,20 @@ class CartController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        //
+    public function index(){
+        $cart = CartModel::where('user_id', Auth::user()->id)->get();
+        $shopp = "";
+        $single = CartModel::where('user_id', Auth::user()->id)->orderby('id')->get();
+        $totalQuantity = $single->sum('cart_quantity');
+        $totalPrice = $single->sum('cart_price');
+    
+        foreach($cart as $item){
+            $shop = ShopModel::find($item->product_id);
+            $shopp = ShopModel::where('id', $item->product_id)->get();
+        } 
+       
+        return view('checkout', compact('cart','shopp', 'totalQuantity', 'totalPrice'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -60,46 +69,44 @@ class CartController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request){
-        if($request->purchase_method == "buy_now"){
-            $bytes = random_bytes(5);
-
-            $order = new OrderModel();
-            $order->order_number = bin2hex($bytes);
-            $order->user_id = $_POST['user_id'];
-            $order->product_id = $_POST['product_id'];
-            $order->order_quantity = 1;
-            $order->order_price = $_POST['product_final_price'];
-            $order->order_status = '0';
-            $order->save();
-
-            $shop = ShopModel::find($_POST['product_id']);
-            $shop->product_quantity = $shop->product_quantity - 1;
-            
-            if($shop->product_quantity == 0){
-                $shop->product_status = 0;
-            }
-            $shop->save();
-
-            return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
-        }else{
-            if(CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first()){
-                $updateCart = CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first();
-                $updateCart->cart_quantity = $updateCart->cart_quantity + $_POST['product_quantity'];
-                $updateCart->cart_price = ($_POST['product_final_price']) * ($updateCart->cart_quantity);
-                $updateCart->save();
+    public function store(){
+        $cart = CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->get();
+        $shop = ShopModel::find($_POST['product_id']);
+        if($shop->product_quantity >= $_POST['product_quantity']){
+            if($cart->count() == 0){
+                $this->cartMethod();
             }else{
-                $cart = new CartModel();
-                $cart->user_id = $_POST['user_id'];
-                $cart->product_id = $_POST['product_id'];
-                $cart->cart_quantity = $_POST['product_quantity'];
-                $cart->cart_price = $_POST['product_final_price'] * $_POST['product_quantity'];
-                $cart->save();
+                foreach($cart as $check){
+                    $count = $check->cart_quantity + $_POST['product_quantity'];
+                    if($count <= $shop->product_quantity){
+                        $this->cartMethod();
+                    }else{
+                        return Redirect::back()->withErrors(["Not Enough Stocks"]);
+                    }   
+                }
             }
             return Redirect::back()->withErrors(["Your Item has been added to your cart"]);
+        }else{
+            return Redirect::back()->withErrors(["Not Enough Stocks"]);
         }
     }
 
+    public function cartMethod(){    
+            if(CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first()){
+                    $updateCart = CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->first();
+                    $updateCart->cart_quantity = $updateCart->cart_quantity + $_POST['product_quantity'];
+                    $updateCart->cart_price = ($_POST['product_final_price']) * ($updateCart->cart_quantity);
+                    $updateCart->save();
+            }else{
+                    $cart = new CartModel();
+                    $cart->user_id = $_POST['user_id'];
+                    $cart->product_id = $_POST['product_id'];
+                    $cart->cart_quantity = $_POST['product_quantity'];
+                    $cart->cart_price = ($_POST['product_final_price']) *  $_POST['product_quantity'];
+                    $cart->save();
+            }
+             return Redirect::back()->withErrors(["Your Item has been added to your cart"]);
+    }
     /**
      * Display the specified resource.
      *

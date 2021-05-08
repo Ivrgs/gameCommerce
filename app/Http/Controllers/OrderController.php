@@ -53,20 +53,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        $user = User::find($_POST['user_id']);
-        if($_POST['CheckoutPassword'] == $_POST['CheckoutConfirm']){
-            if(Hash::check($_POST['CheckoutPassword'], $user->password)){
-               return $this->store();
-            }
-        }else{
-            $cart = CartModel::where('user_id', Auth::user()->id)->get();
-            $shopp = "";
-            foreach($cart as $item){
-                $shop = ShopModel::find($item->product_id);
-                $shopp = ShopModel::where('id', $item->product_id)->get();
-            }
-           return view('/checkout', compact('cart','shopp'))->withErrors(['Wrong Password']);
-        }
+        //
     }
 
     /**
@@ -76,25 +63,7 @@ class OrderController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(){
-        $bytes = random_bytes(5);
-        $cart = CartModel::where('user_id', $_POST['user_id'])->get();
-
-        foreach($cart as $item){
-            $updateShop = ShopModel::find($item->product_id);
-
-            $order = new OrderModel();
-            $order['order_number'] = bin2hex($bytes);
-            $order['user_id'] = $item->user_id;
-            $order['product_id'] = $item->product_id;
-            $order['order_quantity'] = $item->cart_quantity;
-            $order['order_price'] = $item->cart_price;
-            $updateShop['product_quantity'] -= $item->cart_quantity;
-            $updateShop->save();
-            $order->save();
-        }
-
-        $this->destroy();
-        return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
+        //
     }
 
     /**

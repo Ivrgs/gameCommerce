@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Auth, Redirect, App\ShopModel, App\OrderModel, App\CartModel, App\CMSModel;
+use Auth, Redirect, App\User, App\ShopModel, App\OrderModel, App\CartModel, App\CMSModel;
 
 class CartController extends Controller
 {
@@ -15,18 +16,30 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        
         $cart = CartModel::where('user_id', Auth::user()->id)->get();
-        $shopp = "";
-        $single = CartModel::where('user_id', Auth::user()->id)->orderby('id')->get();
-        $totalQuantity = $single->sum('cart_quantity');
-        $totalPrice = $single->sum('cart_price');
-    
-        foreach($cart as $item){
-            $shop = ShopModel::find($item->product_id);
-            $shopp = ShopModel::where('id', $item->product_id)->get();
-        } 
-       
-        return view('checkout', compact('cart','shopp', 'totalQuantity', 'totalPrice'));
+        $user = User::find(Auth::user()->id)->get();
+      
+            $shopp = "";
+            $single = CartModel::where('user_id', Auth::user()->id)->orderby('id')->get();
+
+            $ArrayHolder = [
+                'TotalQuantity' => $single->sum('cart_quantity'),
+                'TotalPrice' => $single->sum('cart_price'),
+                'OrderNumber' => self::randomString(),
+            ];
+            foreach($cart as $item){
+                $shop = ShopModel::find($item->product_id);
+                $shopp = ShopModel::where('id', $item->product_id)->get();
+            } 
+
+            return view('checkout', compact('cart','shopp', 'ArrayHolder', 'user'));
+    }
+    public function randomString(){
+        while(OrderModel::where("order_number", bin2hex(random_bytes(5)))->count() > 0){
+            return bin2hex(random_bytes(5));
+        }
+        return bin2hex(random_bytes(5));
     }
     /**
      * Show the form for creating a new resource.
@@ -34,32 +47,32 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        $arr = OrderModel::join('tbl_shop', 'tbl_shop.id', '=', "tbl_orders.product_id")
-        ->where("user_id", Auth::user()->id)->get();
-        $grouped = $arr->groupBy('order_number');
+        $user = User::find($_POST['user_id']);
+        if($_POST['CheckoutPassword'] == $_POST['CheckoutConfirm']){
+            if(Hash::check($_POST['CheckoutPassword'], $user->password)){
+                $cart = CartModel::where('user_id', $_POST['user_id'])->get();
 
-        $order = new OrderModel();
-        $cart = CartModel::where('user_id', $_POST['user_id'])->get();
+                foreach($cart as $item){
+                    $updateShop = ShopModel::find($item->product_id);
+        
+                    $order = new OrderModel();
+                    $order['order_number'] = $_POST['order_number'];
+                    $order['user_id'] = $item->user_id;
+                    $order['product_id'] = $item->product_id;
+                    $order['order_quantity'] = $item->cart_quantity;
+                    $order['order_price'] = $item->cart_price;
 
-        $bytes = random_bytes(5);
-
-       $arr = array();
-        foreach ($cart as $shop){
-            $temp = array();
-            $temp['order_number'] = bin2hex($bytes);
-            $temp['user_id'] = $shop->user_id;
-            $temp['product_id'] = $shop->product_id;
-            $temp['order_quantity'] = $shop->cart_quantity;
-            $temp['order_price'] = $shop->cart_price;
-            $temp['order_status'] = "0";
-            array_push($arr, $temp);
-        }
-        if($arr == null){
-            return Redirect::back()->withErrors(['You dont have any Item on your cart']);
+                    $updateShop['product_quantity'] -= $item->cart_quantity;
+                    $updateShop->save();
+                    $order->save();
+               }
+        
+                $this->destroy();
+                return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . $_POST['order_number']);
+            }
+            
         }else{
-            OrderModel::insert($arr);
-            $cart->each->delete();
-            return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . bin2hex($bytes));
+            return CartController::index()->withErrors(['Wrong Password, Try Again']);
         }
     }
 
@@ -70,25 +83,38 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(){
-        $cart = CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->get();
-        $shop = ShopModel::find($_POST['product_id']);
-        if($shop->product_quantity >= $_POST['product_quantity']){
-            if($cart->count() == 0){
-                $this->cartMethod();
-            }else{
-                foreach($cart as $check){
-                    $count = $check->cart_quantity + $_POST['product_quantity'];
-                    if($count <= $shop->product_quantity){
-                        $this->cartMethod();
-                    }else{
-                        return Redirect::back()->withErrors(["Not Enough Stocks"]);
-                    }   
-                }
-            }
-            return Redirect::back()->withErrors(["Your Item has been added to your cart"]);
+        if($_POST['purchase_method'] == "Buy Now"){
+            $cart = new CartModel();
+            $cart->user_id = $_POST['user_id'];
+            $cart->product_id = $_POST['product_id'];
+            $cart->cart_quantity = $_POST['product_quantity'];
+            $cart->cart_price = ($_POST['product_final_price']) *  $_POST['product_quantity'];
+            $cart->save();
+            return self::index();
+            
         }else{
-            return Redirect::back()->withErrors(["Not Enough Stocks"]);
+            $cart = CartModel::where('user_id', $_POST['user_id'])->where('product_id', $_POST['product_id'])->get();
+            $shop = ShopModel::find($_POST['product_id']);
+        
+            if($shop->product_quantity >= $_POST['product_quantity']){
+                if($cart->count() == 0){
+                    $this->cartMethod();
+                }else{
+                    foreach($cart as $check){
+                        $count = $check->cart_quantity + $_POST['product_quantity'];
+                        if($count <= $shop->product_quantity){
+                            $this->cartMethod();
+                        }else{
+                            return Redirect::back()->withErrors(["Not Enough Stocks"]);
+                        }   
+                    }
+                }
+                return Redirect::back()->withErrors(["Your Item has been added to your cart"]);
+            }else{
+                return Redirect::back()->withErrors(["Not Enough Stocks"]);
+            }
         }
+       
     }
 
     public function cartMethod(){    
@@ -177,8 +203,7 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id){
-        CartModel::where('id', $id)->delete();
-        return Redirect::back()->withErrors(["The Item in your cart has been Deleted"]);
+    public function destroy(){
+        CartModel::where('user_id', $_POST['user_id'])->delete();
     }
 }

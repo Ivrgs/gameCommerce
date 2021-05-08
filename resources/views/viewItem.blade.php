@@ -60,9 +60,7 @@
     {{Form::hidden('product_id', $shop->id)}}
     {{Form::hidden('product_quantity', '1')}}
     {{Form::hidden('product_final_price', $final_price )}}
-    {{Form::hidden('_method','POST')}}
-    {{Form::hidden('purchase_method', 'buy_now')}}
-    {{Form::submit('Buy Now', ['class'=>'btn btn-warning'])}}
+    {{Form::submit('Buy Now', ['class'=>'btn btn-warning', 'name'=> 'purchase_method'])}}
     {!! Form::close()!!}
   @endif
 
@@ -80,8 +78,6 @@
     {{Form::hidden('product_id', $shop->id)}}
     {{Form::text('product_quantity', '1', ['class' => 'form-control', 'required'])}}
     {{Form::hidden('product_final_price', $final_price )}}
-    {{Form::hidden('_method','POST')}}
-    {{Form::hidden('purchase_method', 'to_cart')}}
     {{Form::submit('Add to cart', ['class'=>'btn btn-primary', 'name'=> 'purchase_method'])}}
     {!! Form::close()!!}
   @endif

@@ -14,6 +14,7 @@
                     success: function(response){
                         if(response.ProductDetails == 0 || response.Total == 0){
                             $(".cart-body").html("<b>You don't have any items in your cart, Shop now.</b>");
+                            $('.cart-footer').hide();  
                         }else{
                             $.each(response.ProductDetails, function(){
                                 var e = this['CartID'];

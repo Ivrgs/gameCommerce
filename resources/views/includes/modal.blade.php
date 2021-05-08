@@ -17,7 +17,7 @@
                         <div class="Price"></div>
 
                     </div>
-                    <div class="modal-footer">
+                    <div class="cart-footer modal-footer">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     {{-- <a href="{{ url("viewCart/".Auth::user()->id) }}"><button type="button" class="btn btn-info">Checkout</button></a> --}}
                     {!!Form::open(['action'=>['CartController@index'], 'method'=>'POST'])!!}

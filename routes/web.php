@@ -28,17 +28,17 @@ Route::get('/reviewItem', 'ReviewController@index')->name('Add Review');
 Route::get('/', 'ShopController@index')->name('ShopController');
 Route::get('/viewItem/{id}', 'ShopController@show')->name('View Item');
 
-Route::post('/addtocart', 'CartController@store')->name('Cart Add');
-Route::get('/viewCart/{id}', 'CartController@show')->name('Show Cart');
-Route::post('/deletecart', 'CartController@destroy')->name('Cart Destroy');
 Route::post('/checkout', 'CartController@index')->name('Cart Checkout');
+Route::get('/viewCart/{id}', 'CartController@show')->name('Show Cart');
+Route::post('/addtocart', 'CartController@store')->name('Cart Add');
+Route::post('/AddOrder', 'CartController@create')->name('Add Order');
+Route::post('/deletecart', 'CartController@destroy')->name('Cart Destroy');
 
-Route::post('/removewish', 'WishController@destroy')->name('Destroy Wish');
-Route::post('/wishlist', 'WishController@store')->name('Add Wish');
 Route::get('/wishlist', 'WishController@index')->name('Show Wish');
+Route::post('/wishlist', 'WishController@store')->name('Add Wish');
+Route::post('/removewish', 'WishController@destroy')->name('Destroy Wish');
 
-Route::post('/AddOrder', 'OrderController@create')->name('Add Order');
 Route::get('/orders', 'OrderController@index')->name('Show Order');
-Route::post('/DeleteOrder', 'OrderController@destroy')->name('Delete Order');
 Route::get('/viewOrder/{orderNum}', 'OrderController@show')->name('View Order');
+Route::post('/DeleteOrder', 'OrderController@destroy')->name('Delete Order');
 

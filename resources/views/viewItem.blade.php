@@ -14,10 +14,10 @@
 @endif
 <!-- Sale Or Not -->
 <p>Php. @if($shop->sale == 1) 
-          <del>{{ $shop->product_price }}.00</del>  {{ $final_price = $shop->sale_price }}.00</p>  
+          <del>{{number_format((float)$shop->product_price, 2,'.',',') }}</del> {{ $final_price = number_format((double)$shop->sale_price, 2,'.',',')}} </p>  
           <!-- JS Function to disable Buy now and Add to cart button-->     
         @else
-          {{ $final_price = $shop->product_price }}.00</p>
+       {{ $final_price = number_format((float)$shop->product_price, 2,'.',',') }}</p>
           <!-- JS Function to enable Buy now and Add to cart button-->     
         @endif
 

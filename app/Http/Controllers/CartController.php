@@ -142,30 +142,29 @@ class CartController extends Controller
     public function show(Request $request){
         $productData = ShopModel::join('tbl_cart', 'tbl_cart.product_id', '=', "tbl_shop.id")->where("user_id", $request->id)->get();
 
-        $cartData = CartModel::where('user_id', $request->id)->get();
-        $quantity = CartModel::where('user_id', $request->id)->sum('cart_quantity');
-        $sum = CartModel::where('user_id', $request->id)->sum('cart_price');
-
+        $single = CartModel::where('user_id', $request->id)->orderby('id')->get();
+        $quantity = $cartData->sum('cart_quantity');
+        $sum = $cartData->sum('cart_price');
+        
         $productInfo = array();
         $Total = array();
 
         foreach($productData as $response){
-                $temp = array();
-                $temp['CartID'] = $response->id;
-                $temp['ProductImage'] = $response->product_image;
-                $temp['ProductName'] = $response->product_name;
-                $temp['ProductPlatform'] = $response->product_platform;
-                $temp['ProductPrice'] = $response->product_price;
-                $temp['CartQuantity'] = $response->cart_quantity;
-
-                array_push($productInfo, $temp);
+                $inner = array();
+                $inner['CartID'] = $response->id;
+                $inner['ProductImage'] = $response->product_image;
+                $inner['ProductName'] = $response->product_name;
+                $inner['ProductPlatform'] = $response->product_platform;               
+                $inner['ProductPrice'] =  $response->sale != 0 ? number_format((float)$response->sale_price, 2,'.',',') : number_format((float)$response->product_price, 2,'.',',');
+                $inner['CartQuantity'] = $response->cart_quantity;
+                array_push($productInfo, $inner);
         }
 
-        foreach($cartData as $index => $cartData ){
-            $temp = array();
-            $temp['TotalQuantity']  = $quantity;
-            $temp['TotalPrice']  = $sum;
-            array_push($Total, $temp);
+        foreach($single as $index => $single ){
+            $inner = array();
+            $inner['TotalQuantity']  = $quantity;
+            $inner['TotalPrice']  = number_format((float)$sum, 2,'.',',');
+            array_push($Total, $inner);
         }
 
             $jsonProduct['ProductDetails'] = $productInfo;
@@ -204,6 +203,12 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(){
-        CartModel::where('user_id', $_POST['user_id'])->delete();
+        if($_POST['CartMethod'] == "Clear Cart"){
+            CartModel::where('user_id', $_POST['user_id'])->delete();
+            return Redirect::back()->withErrors(["All Cart Items Deleted Successfully"]);
+        }else{
+            CartModel::where('user_id', $_POST['user_id'])->delete();
+        }
+        
     }
 }

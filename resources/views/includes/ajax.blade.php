@@ -23,11 +23,6 @@
                                 }else{
                                     document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src='"+this['ProductImage']+"' style='width:100px;'>";
                                 }
-                                
-                               
-                                
-                               
-                               
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
                                 // document.getElementsByClassName("temp")[0].innerHTML +="<p class='GamePrice'>Product Price: " + this['ProductPrice'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><div class='col-md-12'><p class='GamePlatform'>Game Platform: " + this['ProductPlatform'] + "</p></div>";

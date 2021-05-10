@@ -16,24 +16,41 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        
-        $cart = CartModel::where('user_id', Auth::user()->id)->get();
-        $user = User::find(Auth::user()->id)->get();
-      
-            $shopp = "";
+        $productData = ShopModel::join('tbl_cart', 'tbl_cart.product_id', '=', "tbl_shop.id")->where("user_id", Auth::user()->id)->get();
+       
+            $sum = array();
+            $shopp = array();
             $single = CartModel::where('user_id', Auth::user()->id)->orderby('id')->get();
 
-            $ArrayHolder = [
-                'TotalQuantity' => $single->sum('cart_quantity'),
-                'TotalPrice' => $single->sum('cart_price'),
-                'OrderNumber' => self::randomString(),
-            ];
-            foreach($cart as $item){
-                $shop = ShopModel::find($item->product_id);
-                $shopp = ShopModel::where('id', $item->product_id)->get();
-            } 
+            foreach($productData as $thing){
+                $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $thing->product_platform)->get('title');
+                
+                foreach($cmsPlatform as $text){
+                    $cmsPlatform = $text->title;
+                }
 
-            return view('checkout', compact('cart','shopp', 'ArrayHolder', 'user'));
+                $inner = array();
+                $inner['ProductName'] = $thing->product_name;
+                $inner['ProductPlatform'] = $cmsPlatform;
+                $inner['ProductPrice'] =  $thing->sale != 0 ? number_format((float)$thing->sale_price, 2,'.',',') : number_format((float)$thing->product_price, 2,'.',',');
+                $inner['CartQuantity'] = $thing->cart_quantity;
+                array_push($shopp, $inner);
+            }
+            
+            foreach($productData as $key=>$value){
+                $inner = array();
+                $inner = $value->sale != 0 ? number_format((float)$value->sale_price, 2,'.',',') * $value->cart_quantity : number_format((float)$value->product_price, 2,'.',',') * $value->cart_quantity;
+                array_push($sum, $inner);
+            }
+
+            foreach($single as $index => $single ){
+                $ArrayHolder = [
+                    'OrderNumber' => self::randomString(),
+                    'TotalQuantity' => $single->sum('cart_quantity'),
+                    'TotalPrice' => array_sum($sum)
+                ];
+            }
+            return view('checkout', compact('shopp','ArrayHolder'));
     }
     public function randomString(){
         while(OrderModel::where("order_number", bin2hex(random_bytes(5)))->count() > 0){
@@ -61,13 +78,13 @@ class CartController extends Controller
                     $order['product_id'] = $item->product_id;
                     $order['order_quantity'] = $item->cart_quantity;
                     $order['order_price'] = $item->cart_price;
-
                     $updateShop['product_quantity'] -= $item->cart_quantity;
                     $updateShop->save();
                     $order->save();
                }
         
                 $this->destroy();
+                $_POST['CartMethod']  = "Checkout";
                 return redirect('orders')->with('stat', 'Your Item/s has been ordered. Order ID: #' . $_POST['order_number']);
             }
             
@@ -141,29 +158,39 @@ class CartController extends Controller
      */
     public function show(Request $request){
         $productData = ShopModel::join('tbl_cart', 'tbl_cart.product_id', '=', "tbl_shop.id")->where("user_id", $request->id)->get();
-
         $single = CartModel::where('user_id', $request->id)->orderby('id')->get();
-        $quantity = $cartData->sum('cart_quantity');
-        $sum = $cartData->sum('cart_price');
-        
+       
+        $quantity = $single->sum('cart_quantity');
+
+        $sum = array();
         $productInfo = array();
         $Total = array();
 
         foreach($productData as $response){
-                $inner = array();
-                $inner['CartID'] = $response->id;
-                $inner['ProductImage'] = $response->product_image;
-                $inner['ProductName'] = $response->product_name;
-                $inner['ProductPlatform'] = $response->product_platform;               
-                $inner['ProductPrice'] =  $response->sale != 0 ? number_format((float)$response->sale_price, 2,'.',',') : number_format((float)$response->product_price, 2,'.',',');
-                $inner['CartQuantity'] = $response->cart_quantity;
-                array_push($productInfo, $inner);
-        }
+            $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $response->product_platform)->get('title');
+            $inner = array();
+            $inner['CartID'] = $response->id;
+            $inner['ProductImage'] = $response->product_image;
+            $inner['ProductName'] = $response->product_name;
+            
+            foreach($cmsPlatform as $text){
+                $cmsPlatform = $text->title;
+            }
 
+            $inner['ProductPlatform'] = $cmsPlatform; 
+            $inner['ProductPrice'] =  $response->sale != 0 ? number_format((float)$response->sale_price, 2,'.',',') : number_format((float)$response->product_price, 2,'.',',');
+            $inner['CartQuantity'] = $response->cart_quantity;
+            array_push($productInfo, $inner);
+        }
+        foreach($productData as $key=>$value){
+            $inner = array();
+            $inner = $value->sale != 0 ? number_format((float)$value->sale_price, 2,'.',',') * $value->cart_quantity : number_format((float)$value->product_price, 2,'.',',') * $value->cart_quantity;
+            array_push($sum, $inner);
+        }
         foreach($single as $index => $single ){
             $inner = array();
             $inner['TotalQuantity']  = $quantity;
-            $inner['TotalPrice']  = number_format((float)$sum, 2,'.',',');
+            $inner['TotalPrice']  = array_sum($sum);
             array_push($Total, $inner);
         }
 

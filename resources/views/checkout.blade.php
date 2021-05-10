@@ -17,21 +17,23 @@
 {!! Form::close()!!}
 
 
-@foreach($cart as $shop)
-@foreach($shopp as $a)
-<div>
-<div>{{ $shop->product_id }}</div>
-{{$a->product_name}}
-<div>{{ $shop->cart_quantity }}x</div>
-<div>Php. {{ $shop->cart_price }}</div>
 
-</div>
 
-@endforeach
-@endforeach
+@foreach($shopp as $t)
+<div>{{ $t['ProductName'] }}</div>
+<div>Platform: {{ $t['ProductPlatform'] }}</div>
+    <div>{{ $t['CartQuantity'] }}x</div>
+    <div>Php. {{ $t['ProductPrice'] }}</div>
+
+    @endforeach
+
+
+
+
 <br>
 
-{{$ArrayHolder['TotalQuantity']}} Items <br>
-Total Price: Php. {{$ArrayHolder['TotalPrice']}}
+{{ $ArrayHolder['TotalQuantity'] }} Items <br>
+Total Price: Php. {{ $ArrayHolder['TotalPrice']}}<br><br>
+
 
 @endsection

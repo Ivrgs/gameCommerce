@@ -18,10 +18,10 @@ Auth::routes();
 Auth::routes(['verify' => true]);
 // Route::post('/Verify', 'Auth\RegisterController@create')->name("Verify.Account");
 
-Route::get('/home', 'HomeController@index')->name('Home Controller');
-Route::get('/about', 'HomeController@about')->name('About Page');
-Route::post('/updateAccount/{id}', 'HomeController@updatePassword')->name('User Password');
-Route::get('/mail', 'HomeController@sendEmail');
+Route::get('/dashboard', 'UserController@index')->name('User Controller');
+Route::get('/about', 'UserController@about')->name('About Page');
+Route::post('/updateAccount/{id}', 'UserController@updatePassword')->name('User Password');
+Route::get('/mail', 'UserController@sendEmail');
 
 Route::get('/reviewItem', 'ReviewController@index')->name('Add Review');
 

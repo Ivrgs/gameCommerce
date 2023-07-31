@@ -50,7 +50,7 @@
         </div>
         <div class="modal-body">
 
-          {!!Form::open(['action'=>['HomeController@updatePassword', Auth::user()->id], 'method'=>'POST'])!!}
+          {!!Form::open(['action'=>['UserController@updatePassword', Auth::user()->id], 'method'=>'POST'])!!}
             <div class="form-group">
                 {{Form::label('password','Old Password')}}
                 {{Form::password('old_password', ['class'=>'form-control'])}}

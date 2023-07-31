@@ -30,8 +30,11 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
-
+    // protected $redirectTo = RouteServiceProvider::HOME;
+    protected function authenticated(Request $request, $user)
+    {
+        return redirect()->route('ShopController');
+    }
     /**
      * Create a new controller instance.
      *
@@ -61,7 +64,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\HomeController
+     * @return \App\UserController
      */
     protected function create(array $data){
         $bytes = random_bytes(5);

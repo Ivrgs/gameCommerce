@@ -6,3 +6,29 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+footer {
+    bottom: 0;
+    width: 100%;
+    color: #fff;
+
+    .FooterColor {
+        padding: 3vw 0;
+        background-color: #202425;
+        color: #fff;
+    }
+
+    .FooterCopyright {
+        background: #151515;
+        color: #fff;
+        padding: 1vw 0;
+        text-align: center;
+    }
+
+        
+    }
+    
+    // .FooterWidgetContainer {
+    // padding: 50px 0;
+    // }
+    

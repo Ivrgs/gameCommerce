@@ -13,7 +13,7 @@
 {{Form::text('CheckoutEmail', Auth::user()->email, ['class' => 'form-control', 'required', 'placeholder' => 'example@domain.com'])}}
 {{Form::password('CheckoutPassword', ['class' => 'form-control', 'required', 'placeholder' => 'Your Password'])}}
 {{Form::password('CheckoutConfirm', ['class' => 'form-control', 'required', 'placeholder' => 'Confirm your Password'])}}
-{{Form::submit('Checkout', ['class'=>'btn btn-info'])}}
+{{Form::submit('Checkout', ['class'=>'btn btn-info','name'=>'CartMethod'])}}
 {!! Form::close()!!}
 
 

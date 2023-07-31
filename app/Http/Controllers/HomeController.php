@@ -33,15 +33,15 @@ class HomeController extends Controller
         return view('about');
     }
     public function sendEmail(){
-        $to_name ='Ivrgs';
-        $to_email ='ivargasrodel@gmail.com';
-        $data = array('name'=>"gameCommerce", "body" => "Welcome to gameCommerce");
+        // $to_name ='Ivrgs';
+        // $to_email ='ivargasrodel@gmail.com';
+        // $data = array('name'=>"gameCommerce", "body" => "Welcome to gameCommerce");
 
-        Mail::send('email',
-            $data, function($message) use ($to_name, $to_email) {
-                $message->to($to_email, $to_name)->subject('Laravel Test Mail');
-                $message->from(env("MAIL_USERNAME"),'gameCommerce Admin');
-            });
+        // Mail::send('email',
+        //     $data, function($message) use ($to_name, $to_email) {
+        //         $message->to($to_email, $to_name)->subject('Laravel Test Mail');
+        //         $message->from(env("MAIL_USERNAME"),'gameCommerce Admin');
+        //     });
 
         // $mj = new \Mailjet\Client('561f80e0460466295fe63b7d96be352d', 'c63a61fa9a1da8524df9ce993c40c13f', true, ['version' => 'v3.1']);
         // $body = [

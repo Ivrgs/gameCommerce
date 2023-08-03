@@ -26,7 +26,7 @@
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
                                 // document.getElementsByClassName("temp")[0].innerHTML +="<p class='GamePrice'>Product Price: " + this['ProductPrice'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><div class='col-md-12'><p class='GamePlatform'>Game Platform: " + this['ProductPlatform'] + "</p></div>";
-                                document.getElementsByClassName("temp")[0].innerHTML += "<div class='row'><div class='col-md-6'><p class='GameQuantity'>Product Quantity: " + this['CartQuantity'] + "</p></div><div class='col-md-6'><form method='POST' action='http://localhost:8000/deletecart/"+ e +"'><input type='submit' value='Delete'></form></div></div></div><br>";
+                                document.getElementsByClassName("temp")[0].innerHTML += "<div class='row'><div class='col-md-6'><p class='GameQuantity'>Product Quantity: " + this['CartQuantity'] + "</p></div><div class='col-md-6'><form method='GET' action='/deleteItem/' accept-charset='UTF-8'><input type='hidden' name='userID' value=' "+ this['UserID'] +"'><input type='hidden' name='itemID' value=' "+ e +"'><input type='submit' value='Delete'></form></div></div></div><br>";
                             });
 
                             $.each(response.Total, function(){

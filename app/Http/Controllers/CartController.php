@@ -170,6 +170,7 @@ class CartController extends Controller
             $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $response->product_platform)->get('title');
             $inner = array();
             $inner['CartID'] = $response->id;
+            $inner['UserID'] = $request->id;
             $inner['ProductImage'] = $response->product_image;
             $inner['ProductName'] = $response->product_name;
             
@@ -230,12 +231,12 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(){
-        if($_POST['CartMethod'] == "Clear Cart"){
-            CartModel::where('user_id', $_POST['user_id'])->delete();
-            return Redirect::back()->withErrors(["All Cart Items Deleted Successfully"]);
-        }else{
-            CartModel::where('user_id', $_POST['user_id'])->delete();
-        }
-        
+        CartModel::where('user_id', $_POST['user_id'])->delete();
+        return Redirect::back()->withErrors(["All Cart Items Deleted Successfully"]);
+    }
+
+    public function deleteItem(){
+        CartModel::where('user_id', $_GET['userID'], ['id', $_GET['itemID']])->delete();
+        return Redirect::back()->withErrors(["Item Deleted Successfully"]);
     }
 }

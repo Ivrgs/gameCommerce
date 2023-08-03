@@ -32,7 +32,8 @@ Route::post('/checkout', 'CartController@index')->name('Cart Checkout');
 Route::get('/viewCart/{id}', 'CartController@show')->name('Show Cart');
 Route::post('/addtocart', 'CartController@store')->name('Cart Add');
 Route::post('/AddOrder', 'CartController@create')->name('Add Order');
-Route::post('/deletecart', 'CartController@destroy')->name('Cart Destroy');
+Route::post('/deletecart/', 'CartController@destroy')->name('Cart Destroy');
+Route::any('/deleteItem/', 'CartController@deleteItem')->name('Cart Item Delete');
 
 Route::get('/wishlist', 'WishController@index')->name('Show Wish');
 Route::post('/wishlist', 'WishController@store')->name('Add Wish');

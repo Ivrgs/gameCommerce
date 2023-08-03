@@ -29,7 +29,7 @@
                     {!!Form::open(['action'=>['CartController@index'], 'method'=>'POST'])!!}
                     {{Form::hidden('user_id', Auth::user()->id)}}
                     {{Form::hidden('_method','POST')}}
-                    {{Form::submit('Checkout', ['class'=>'btn btn-info','name'=>'CartMethod'])}}
+                    {{Form::submit('Checkout', ['class'=>'btn btn-info'])}}
                     {!! Form::close()!!}
                 </div>
                   </div>

@@ -53,9 +53,10 @@ class ShopController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id){
+    public function show($slug){
         $wish = '';
-        $shop = ShopModel::find($id);
+        // $shop = ShopModel::find($id);
+        $shop = ShopModel::where('product_slug', $slug)->first();
 
         $cmsStatus = CMSModel::where('type', "product_status")->where('value', $shop->product_status)->get('title');
         $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $shop->product_platform)->get('title');
@@ -99,7 +100,7 @@ class ShopController extends Controller
         }
 
         if(isset(Auth::user()->id)){
-            if ($wish = WishModel::where('product_id', $id)->where('user_id', Auth::user()->id)->first()) {
+            if ($wish = WishModel::where('product_id', $shop->id)->where('user_id', Auth::user()->id)->first()) {
                 $wish = true;
             } else {
                 $wish = false;

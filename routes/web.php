@@ -26,7 +26,7 @@ Route::get('/mail', 'UserController@sendEmail');
 Route::get('/reviewItem', 'ReviewController@index')->name('Add Review');
 
 Route::get('/', 'ShopController@index')->name('ShopController');
-Route::get('/viewItem/{id}', 'ShopController@show')->name('View Item');
+Route::get('/viewItem/{product_slug}', 'ShopController@show')->name('View Item');
 
 Route::post('/checkout', 'CartController@index')->name('Cart Checkout');
 Route::get('/viewCart/{id}', 'CartController@show')->name('Show Cart');

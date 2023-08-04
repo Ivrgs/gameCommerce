@@ -17,6 +17,7 @@ class CreateShopTable extends Migration
             $table->increments('id');
             $table->string('product_image')->nullable();
             $table->string('product_name');
+            $table->string('product_slug');
             $table->text('product_description');
             $table->string('product_platform');
             $table->float('product_price', 8, 2);

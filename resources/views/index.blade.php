@@ -18,9 +18,10 @@
                                                          @endif
                                                          </div>
                                                             {{ $items->product_name }}
+                                                            {{ $items->product_slug }}
                         </p></p>
                         Php. {{ $items->product_price }}.00
- </p><p><a href="{{ route('View Item', $items->id) }}"><button >View</button></a></p>
+ </p><p><a href="{{ route('View Item', $items->product_slug) }}"><button >View</button></a></p>
 
 
                     </div>

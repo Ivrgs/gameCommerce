@@ -23,7 +23,7 @@ class WishController extends Controller
         
             $sample = array();
             foreach($mywish as $wish){
-                $productData = ShopModel::select('id','product_image','product_name', 'product_price')->where('id', $wish->product_id)->get();
+                $productData = ShopModel::select('id','product_image','product_name', 'product_slug','product_price')->where('id', $wish->product_id)->get();
                 $temp = array();
                 $temp['WishID'] = $wish->id;
                 $temp['ProductData'] = $productData;

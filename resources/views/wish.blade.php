@@ -22,7 +22,7 @@
                @endif
                 {{ $tru['product_name']}}
                 {{ $tru['product_price']}}
-
+                <a href="/viewItem/{{ $tru['product_slug']}}"><input type='button' value='View Game'></a>
                 {!!Form::open(['action'=>['WishController@destroy'], 'method'=>'POST'])!!}
                 {{Form::hidden('user_id', Auth::user()->id)}}
                 {{Form::hidden('product_id', $tru['id'])}}

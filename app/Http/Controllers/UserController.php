@@ -79,7 +79,7 @@ class UserController extends Controller
         //    return view('home')->with('Password has been updated');
         }else{
 
-            return redirect('/home')->with('status-error','Your Old Password is not Matched');
+            return redirect('/dashboard')->with('status-error','Your Old Password is not Matched');
             // return view('home')->with("Your Old Password is not Matched");
         }
     }

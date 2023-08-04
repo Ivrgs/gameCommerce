@@ -44,7 +44,7 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
+    protected $redirectTo = '/';
     /**
      * Get a validator for an incoming registration request.
      *

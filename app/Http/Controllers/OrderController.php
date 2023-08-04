@@ -100,6 +100,7 @@ class OrderController extends Controller
             $inner['order_number'] = $OrderNumber;
             $inner['product_image'] = $product->product_image;
             $inner['product_name'] = $product->product_name;
+            $inner['product_slug'] = $product->product_slug;
             $inner['product_platform'] = $cmsPlatform ;
             $inner['order_price'] = $order->order_price;
             $inner['order_quantity'] = $order->order_quantity;

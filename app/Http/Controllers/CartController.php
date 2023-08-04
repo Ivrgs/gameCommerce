@@ -173,7 +173,8 @@ class CartController extends Controller
             $inner['UserID'] = $request->id;
             $inner['ProductImage'] = $response->product_image;
             $inner['ProductName'] = $response->product_name;
-            
+            $inner['ProductSlug'] = $response->product_slug;
+
             foreach($cmsPlatform as $text){
                 $cmsPlatform = $text->title;
             }

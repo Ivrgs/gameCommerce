@@ -23,7 +23,7 @@
                                 }else{
                                     document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><img src='"+this['ProductImage']+"' style='width:100px;'>";
                                 }
-                                document.getElementsByClassName("temp")[0].innerHTML +="<div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
+                                document.getElementsByClassName("temp")[0].innerHTML +="<div class='col-md-6'><p class='GameTitle'> Game Title: " + this['ProductName'] + "</p></div><a href='/viewItem/"+ this['ProductSlug'] +"'><input type='button' class='' value='View Item'></a><div class='col-md-6'>Product Price: " + this['ProductPrice'] + "</div>";
                                 // document.getElementsByClassName("temp")[0].innerHTML +="<p class='GamePrice'>Product Price: " + this['ProductPrice'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML +="<div class='row'><div class='col-md-12'><p class='GamePlatform'>Game Platform: " + this['ProductPlatform'] + "</p></div>";
                                 document.getElementsByClassName("temp")[0].innerHTML += "<div class='row'><div class='col-md-6'><p class='GameQuantity'>Product Quantity: " + this['CartQuantity'] + "</p></div><div class='col-md-6'><form method='GET' action='/deleteItem/' accept-charset='UTF-8'><input type='hidden' name='userID' value=' "+ this['UserID'] +"'><input type='hidden' name='itemID' value=' "+ e +"'><input type='submit' value='Delete'></form></div></div></div><br>";
@@ -68,7 +68,7 @@
                         document.getElementsByClassName("temp2")[0].innerHTML +=  "<div class='col-md-4'><img src='" + this['product_image'] + "' style='width:100px;'></img></div>";
                                                                                 
                         }
-                        document.getElementsByClassName("temp2")[0].innerHTML += "<div class='col-md-4'><div class=''>"+ this['product_name'] +"</div>" + 
+                        document.getElementsByClassName("temp2")[0].innerHTML += "<div class='col-md-4'><div class=''>"+ this['product_name'] +"</div><a href='/viewItem/"+ this['product_slug'] +"'><input type='button' class='' value='View Item'></a>" + 
                                                                                 "<div class=''>Platform: " + this['product_platform'] + "</div>" + 
                                                                                 "<div class=''>"+ this['order_quantity'] + "x</div></div>" + 
                                                                                 "<div class='col-md-4'><div class=''>" + this['order_status'] +"</div>" + 

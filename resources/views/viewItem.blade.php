@@ -84,7 +84,7 @@
 @endif
 
 <!-- Description -->
-<p>Description: {{ $shop->product_description }}</p>
+<p>Description: {!! html_entity_decode($shop->product_description) !!}</p>
 <!-- Platform -->
 <p> Platform: {{ $CMSPack['cmsPlatform'] }}</p>
 <!-- Product Quantity -->

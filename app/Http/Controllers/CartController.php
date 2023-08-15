@@ -23,7 +23,7 @@ class CartController extends Controller
             $single = CartModel::where('user_id', Auth::user()->id)->orderby('id')->get();
 
             foreach($productData as $thing){
-                $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $thing->product_platform)->get('title');
+                $cmsPlatform = CMSModel::where('type', "Product Platform")->where('title', $thing->product_platform)->get('title');
                 
                 foreach($cmsPlatform as $text){
                     $cmsPlatform = $text->title;
@@ -78,6 +78,7 @@ class CartController extends Controller
                     $order['product_id'] = $item->product_id;
                     $order['order_quantity'] = $item->cart_quantity;
                     $order['order_price'] = $item->cart_price;
+                    $order['order_status'] = $item->cart_price;
                     $updateShop['product_quantity'] -= $item->cart_quantity;
                     $updateShop->save();
                     $order->save();
@@ -167,7 +168,7 @@ class CartController extends Controller
         $Total = array();
 
         foreach($productData as $response){
-            $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $response->product_platform)->get('title');
+            $cmsPlatform = CMSModel::where('type', "Product Platform")->where('title', $response->product_platform)->get('title');
             $inner = array();
             $inner['CartID'] = $response->id;
             $inner['UserID'] = $request->id;

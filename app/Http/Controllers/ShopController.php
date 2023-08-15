@@ -58,8 +58,8 @@ class ShopController extends Controller
         // $shop = ShopModel::find($id);
         $shop = ShopModel::where('product_slug', $slug)->first();
 
-        $cmsStatus = CMSModel::where('type', "product_status")->where('value', $shop->product_status)->get('title');
-        $cmsPlatform = CMSModel::where('type', "product_platform")->where('value', $shop->product_platform)->get('title');
+        $cmsStatus = CMSModel::where('type', "Product Status")->where('title', $shop->product_status)->get('title');
+        $cmsPlatform = CMSModel::where('type', "Product Platform")->where('title', $shop->product_platform)->get('title');
 
         foreach($cmsStatus as $text){
             $cmsStatus = $text->title;

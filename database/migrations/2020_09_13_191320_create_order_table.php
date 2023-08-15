@@ -21,7 +21,7 @@ class CreateOrderTable extends Migration
             $table->float('order_price', 8, 2);
             $table->integer('order_quantity');
             $table->integer('order_payment');
-            $table->integer('order_status');
+            $table->string('order_status', 255);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

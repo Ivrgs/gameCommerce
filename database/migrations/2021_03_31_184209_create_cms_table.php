@@ -17,7 +17,6 @@ class CreateCmsTable extends Migration
             $table->id();
             $table->string('type');
             $table->string('title');
-            $table->string('value');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->default(\DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

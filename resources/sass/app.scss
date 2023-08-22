@@ -1,34 +1,12 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
-
-// Variables
-@import 'variables';
+// @import url('https://fonts.googleapis.com/css?family=Nunito');
 
 // Bootstrap
-@import '~bootstrap/scss/bootstrap';
-
-footer {
-    bottom: 0;
-    width: 100%;
-    color: #fff;
-
-    .FooterColor {
-        padding: 3vw 0;
-        background-color: #202425;
-        color: #fff;
-    }
-
-    .FooterCopyright {
-        background: #151515;
-        color: #fff;
-        padding: 1vw 0;
-        text-align: center;
-    }
-
-        
-    }
+// @import '~bootstrap/scss/bootstrap';
     
-    // .FooterWidgetContainer {
-    // padding: 50px 0;
-    // }
-    
+@font-face {
+    font-family: 'NotoSans';
+    src: url('../fonts/NotoSansJP.ttf')  format('truetype'); 
+}
+
+@import 'global';

@@ -1,0 +1,18 @@
+footer {
+    bottom: 0;
+    width: $colm_10;
+    color: $color_white;
+
+    .footer-widgets {
+        padding: 3vw 0;
+        background-color: $secondary_color;
+        color: $color_white;
+    }
+
+    .footer-copyrights {
+        background: $primary_color;
+        color: $color_white;
+        padding: 1vw 0;
+        text-align: center;
+    }
+}

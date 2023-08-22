@@ -1,0 +1,39 @@
+@mixin background($image, $color){
+    background: {
+        image: $image;
+        color: $color;
+        repeat: no-repeat;
+        position: center;
+        size: cover;
+        blend-mode: overlay;
+    }
+}
+@mixin background_image($image){
+    background: {
+        image: $image;
+        repeat: no-repeat;
+        position: center;
+        size: cover;
+    }
+}
+
+@mixin hyperlink{
+    color: $accent_color;
+    text-decoration: none;
+}
+@mixin rounded{
+    width: $colm_10;
+    border-radius: 10px;
+    box-shadow: 0 0 25px -5px rgba(0, 0, 0, 0.75);
+}
+
+@mixin main_buttons{
+    @include rounded;
+    background-color: $secondary_color;
+    font-size: $m_font;
+    padding: 15px 20px;
+    margin: 10px 0px;
+    text-align: center;
+    width: auto;
+    cursor:pointer;
+}

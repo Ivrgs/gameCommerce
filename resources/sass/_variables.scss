@@ -1,19 +1,41 @@
 // Body
-$body-bg: #f8fafc;
+// $body-bg: #f8fafc;
 
 // Typography
-$font-family-sans-serif: 'Nunito', sans-serif;
+// $font-family-sans-serif: 'Nunito', sans-serif;
 $font-size-base: 0.9rem;
 $line-height-base: 1.6;
 
 // Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66d9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
+// $blue: #3490dc;
+// $indigo: #6574cd;
+// $purple: #9561e2;
+// $pink: #f66d9b;
+// $red: #e3342f;
+// $orange: #f6993f;
+// $yellow: #ffed4a;
+// $green: #38c172;
+// $teal: #4dc0b5;
+// $cyan: #6cb2eb;
+
+$primary_color:#1b262c;
+$secondary_color:#2b3439;
+$accent_color:#bbe1fa;
+
+$color_black: #000000;
+$color_grey: #dddddd;
+$color_white:#ffffff;
+
+$colm_10: 100%;
+
+$large_tablet_size: 1024px;
+$tablet_size: 900px;
+$small_tablet_size: 768px;
+$mobile_size: 600px;
+$small_mobile_size: 414px;
+
+
+$xl_font: 42px;
+$l_font: 24px;
+$m_font: 18px;
+$s_font: 14px;

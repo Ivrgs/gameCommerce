@@ -1,0 +1,135 @@
+@import 'variables';
+@import 'mixins';
+
+html{
+    scroll-behavior: smooth;
+}
+
+body{
+    font-family: 'NotoSans';
+}
+
+h1, h2, h3, h4, h5, h6{
+    padding:10px 0px;
+    margin: 0px;
+}
+p, span{
+    padding: 8px 0px;
+    margin: 0px;
+}
+
+a{
+    @include hyperlink;
+}
+
+
+.colm_1{
+    width: 10%;
+}
+.colm_15{
+    width: 15%;
+}
+.colm_2{
+    width: 20%;
+}
+.colm_25{
+    width: 25%;
+}
+.colm_3{
+    width: 20%;
+}
+.colm_4{
+    width:40%;
+}
+.colm_5{
+    width: 50%;
+}
+.colm_6{
+    width: 60%;
+}
+.colm_7{
+    width: 70%;
+}
+.colm_75{
+    width: 75%;
+}
+.colm_8{
+    width:80%;
+}
+.colm_9{
+    width: 90%;
+}
+.colm_10{
+    width: 100%;
+}
+
+@media screen and (max-width: $tablet_size){
+    .tablet_1{
+        width: 10%;
+    }
+    .tablet_2{
+        width: 20%;
+    }
+    .tablet_25{
+        width: 25%;
+    }
+    .tablet_33{
+        width: 33%;
+    }
+    .tablet_35{
+        width: 35%;
+    }
+    .tablet_5{
+        width: 50%;
+    }
+    .tablet_7{
+        width: 70%;
+    }
+    .tablet_10{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: $mobile_size){
+    .mobile_1{
+        width: 10%;
+    }
+    .mobile_2{
+        width: 20%;
+    }
+    .mobile_25{
+        width: 25%;
+    }
+    .mobile_3{
+        width: 30%;
+    }
+    .mobile_33{
+        width: 33%;
+    }
+    .mobile_5{
+        width: 50%;
+    }
+    .mobile_10{
+        width: 100%;
+    }
+}
+
+.fixed_top{
+    position: fixed;
+    @extend .colm_10;
+}
+
+.primary-button{
+    @include main_buttons;
+}
+
+@import './includes/navigator.scss';
+@import './pages/about_page.scss';
+@import './pages/account_page.scss';
+@import './pages/contact_page.scss';
+@import './pages/front_page.scss';
+@import './pages/order_page.scss';
+@import './pages/shop_page.scss';
+@import './pages/shop_page_inner.scss';
+@import './pages/wish_page.scss';
+@import './includes/footer.scss';

@@ -1,3 +1,7 @@
+@mixin variable_width($width){
+    width: $width;
+    margin: auto;
+}
 @mixin background($image, $color){
     background: {
         image: $image;
@@ -21,19 +25,46 @@
     color: $accent_color;
     text-decoration: none;
 }
+@mixin hyperlink_list{
+    @include hyperlink;
+    list-style: none;
+    padding:0px;
+    margin:0px;
+}
 @mixin rounded{
     width: $colm_10;
     border-radius: 10px;
     box-shadow: 0 0 25px -5px rgba(0, 0, 0, 0.75);
+    border: none;
 }
 
 @mixin main_buttons{
     @include rounded;
     background-color: $secondary_color;
     font-size: $m_font;
+    color: $color_grey;
     padding: 15px 20px;
     margin: 10px 0px;
     text-align: center;
     width: auto;
     cursor:pointer;
+}
+
+@mixin main_textfield{
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 10px;
+    text-align: left;
+    font-size: $m_font;
+
+    &:focus-visible{
+        outline: $color_grey;
+    }
+}
+
+@mixin heading_1{
+    font-size: $xl_font;
+    @media screen and (max-width:$tablet-size){
+        font-size: $l_font;
+    }
 }

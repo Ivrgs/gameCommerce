@@ -1,0 +1,81 @@
+.main-nav{
+    background-color: $primary_color;
+
+    .container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        @include variable_width(90%);
+
+        @media screen and(max-width:$small_tablet_size){
+            flex-direction: column;
+        }
+
+        .navbar-logo{
+            a img{
+                width: $colm-10;
+            }
+        }
+
+        .navbar-menu{
+            .menu-container{
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+
+                @media screen and(max-width:$small_tablet_size){
+                    justify-content: center;
+                }
+                @media screen and(max-width: $mobile_size) {
+                    display: none;
+                }
+            
+                .search-container{
+                    display: flex;
+
+                    .textfield{
+                        @include main_textfield;
+                    }
+                }
+
+                .cart-container{
+                    width: 5%;
+
+                    img{
+                        width: 100%;
+                        cursor: pointer;
+                    }
+                }
+
+                .account-container{
+                    display:flex;
+                    @include hyperlink_list;
+                    a.dropdown{
+                        padding: 15px 15px 10px;
+                    }
+                    &.dropdown .menu-item{
+                        display: none;
+                    }
+                    &.dropdown.show .dropdown-container{
+                        margin-top: 60px;
+                        position:absolute;
+                        background-color: $secondary_color;
+
+                        li{
+                            display: block;
+                            padding:15px;
+                        }
+                    } 
+                }
+            }
+            .menu-container.mobile{
+                display: none;
+
+                @media screen and(max-width: $mobile_size) {
+                    display: block;
+                }
+            }
+        }
+        
+    }
+}

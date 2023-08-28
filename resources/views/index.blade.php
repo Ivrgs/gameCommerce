@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('shopcontents')
-<div class="container">
+
                 <div class="title m-b-md">
 
                     Laravel
